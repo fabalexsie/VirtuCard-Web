@@ -39,10 +39,23 @@ function App() {
             </small>
           </p>
           <Button>Test</Button>
+          <EjsRenderer
+            template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
+            data={{ name: 'World' }}
+          />
         </header>
       </div>
     </NextUIProvider>
   );
+}
+
+function EjsRenderer(props: { template: string; data: object }) {
+  try {
+    let html = window.ejs.render(props.template, props.data);
+    return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  } catch (err) {
+    return <pre>{String(err)}</pre>;
+  }
 }
 
 export default App;
