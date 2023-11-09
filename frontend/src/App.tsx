@@ -35,7 +35,7 @@ function App() {
           </a>
           <p>
             <small>
-              <pre>{apiResult}</pre>
+              <code>{apiResult}</code>
             </small>
           </p>
           <Button>Test</Button>
