@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Button, NextUIProvider } from '@nextui-org/react';
 
 function App() {
   const [apiResult, setApiResult] = useState('API is loading');
@@ -17,27 +18,30 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>
-          <small>
-            <pre>{apiResult}</pre>
-          </small>
-        </p>
-      </header>
-    </div>
+    <NextUIProvider>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <p>
+            <small>
+              <pre>{apiResult}</pre>
+            </small>
+          </p>
+          <Button>Test</Button>
+        </header>
+      </div>
+    </NextUIProvider>
   );
 }
 
