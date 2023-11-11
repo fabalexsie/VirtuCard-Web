@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Button, NextUIProvider } from '@nextui-org/react';
+import * as ejsprima from './ejsprima';
 
 function App() {
   const [apiResult, setApiResult] = useState('API is loading');
@@ -41,7 +42,7 @@ function App() {
           <Button>Test</Button>
           <EjsRenderer
             template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
-            data={{ name: 'World' }}
+            data={{ name: 'World', from: undefined }}
           />
         </header>
       </div>
@@ -51,9 +52,15 @@ function App() {
 
 function EjsRenderer(props: { template: string; data: object }) {
   try {
+    let usedVarsObj = ejsprima.extractUsedVarsFromTemplate(props.template);
+    let usedVars: string[] = Array.from(
+      new Set(usedVarsObj.reads.concat(usedVarsObj.writes)),
+    );
+    // TODO: check if all used vars are given in data
     let html = window.ejs.render(props.template, props.data);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   } catch (err) {
+    // TODO: meaningful output for non-technical users for ReferenceErrors (read data not given) and TypeErrors (read property of undefined)
     return <pre>{String(err)}</pre>;
   }
 }
