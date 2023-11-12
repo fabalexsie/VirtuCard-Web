@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Button, NextUIProvider } from '@nextui-org/react';
-import * as ejsprima from './ejsprima';
+import { EjsRenderer } from './EjsRenderer';
+import { downloadVcf } from './utilContact';
 
 function App() {
   const [apiResult, setApiResult] = useState('API is loading');
@@ -39,7 +40,17 @@ function App() {
               <code>{apiResult}</code>
             </small>
           </p>
-          <Button>Test</Button>
+          <Button
+            onPress={() =>
+              downloadVcf({
+                firstname: 'Erika',
+                emailList: ['erika@example.com'],
+                phoneList: [{ no: '+49123456789', type: 'home' }],
+              })
+            }
+          >
+            Test
+          </Button>
           <EjsRenderer
             template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
             data={{ name: 'World', from: undefined }}
@@ -48,21 +59,6 @@ function App() {
       </div>
     </NextUIProvider>
   );
-}
-
-function EjsRenderer(props: { template: string; data: object }) {
-  try {
-    let usedVarsObj = ejsprima.extractUsedVarsFromTemplate(props.template);
-    let usedVars: string[] = Array.from(
-      new Set(usedVarsObj.reads.concat(usedVarsObj.writes)),
-    );
-    // TODO: check if all used vars are given in data
-    let html = window.ejs.render(props.template, props.data);
-    return <div dangerouslySetInnerHTML={{ __html: html }} />;
-  } catch (err) {
-    // TODO: meaningful output for non-technical users for ReferenceErrors (read data not given) and TypeErrors (read property of undefined)
-    return <pre>{String(err)}</pre>;
-  }
 }
 
 export default App;
