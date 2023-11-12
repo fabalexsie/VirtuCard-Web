@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Button, NextUIProvider } from '@nextui-org/react';
-import { EjsRenderer } from './EjsRenderer';
-import { downloadVcf } from './utilContact';
+import './App.scss';
+import { NextUIProvider } from '@nextui-org/react';
 
 function App() {
   const [apiResult, setApiResult] = useState('API is loading');
@@ -22,25 +19,17 @@ function App() {
   return (
     <NextUIProvider>
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>
-            <small>
-              <code>{apiResult}</code>
-            </small>
-          </p>
-          <Button
+        <div className="flipable-card-holder">
+          <div className="flipable-card">
+            <div className="front">
+              <h1>Front</h1>
+            </div>
+            <div className="back">
+              <h1>Back</h1>
+            </div>
+          </div>
+        </div>
+        {/*<Button
             onPress={() =>
               downloadVcf({
                 firstname: 'Erika',
@@ -54,8 +43,7 @@ function App() {
           <EjsRenderer
             template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
             data={{ name: 'World', from: undefined }}
-          />
-        </header>
+          />*/}
       </div>
     </NextUIProvider>
   );
