@@ -28,12 +28,12 @@ function App() {
   const handlePanEnd = (event: any, info: any) => {
     const relOffset = info.offset.x / (cardRef.current?.clientWidth || 1);
     if (info.velocity.x > 200 || (relOffset > 0.3 && rotAnim < -0.5)) {
-      setRotAnim(1);
-    } else if (info.velocity.x < -200 || (relOffset < -0.3 && rotAnim > 0.5)) {
       setRotAnim(0);
+    } else if (info.velocity.x < -200 || (relOffset < -0.3 && rotAnim > -0.5)) {
+      setRotAnim(-1);
     } else {
-      if (rotAnim > 0.5) setRotAnim(1);
-      else setRotAnim(0);
+      if (rotAnim > -0.5) setRotAnim(0);
+      else setRotAnim(-1);
     }
     setOutStr(
       `offset: ${relOffset}\nvelocity: ${info.velocity.x}\nrotAnim: ${rotAnim}`,
@@ -43,13 +43,14 @@ function App() {
   return (
     <NextUIProvider>
       <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={cardRef}>
+        {/*<p>{outStr}</p>*/}
         <div className="App touch-pan-x">
           <div className="flipable-card-holder">
             <motion.div
               layout
               className="flipable-card"
               animate={{
-                rotateY: `${180 * Math.max(-0.1, Math.min(rotAnim, 1.1))}deg`,
+                rotateY: `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`,
               }}
               style={{ width: '100%', height: '100%' }}
             >
