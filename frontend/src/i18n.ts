@@ -10,9 +10,9 @@ i18next
     resources: {
       en: {
         translation: {
-          'Edit profile information': 'Edit profile information',
-          'First name': 'First name',
-          'Last name': 'Last name',
+          'Edit Profile Information': 'Edit Profile Information',
+          'First Name': 'First Name',
+          'Last Name': 'Last Name',
         },
       },
     },
