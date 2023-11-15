@@ -28,6 +28,7 @@
       width: 100%;
       height: 100%;
       border-radius: 25px;
+      overflow: hidden;
       backface-visibility: hidden;
     }
 
@@ -37,8 +38,6 @@
     }
 
     .back {
-      background-color: #bbb;
-      color: black;
       transform: rotateY(180deg);
     }
   }
