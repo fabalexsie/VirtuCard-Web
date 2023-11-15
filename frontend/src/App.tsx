@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { NextUIProvider } from '@nextui-org/react';
 import { motion } from 'framer-motion';
 import { BackMain } from './backside/BackMain';
 
@@ -42,28 +41,27 @@ function App() {
   };
 
   return (
-    <NextUIProvider>
-      <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
-        {/*<p>{outStr}</p>*/}
-        <div className="App touch-pan-x select-none">
-          <div className="flipable-card-holder">
-            <motion.div
-              layout
-              className="flipable-card"
-              animate={{
-                rotateY: `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`,
-              }}
-              style={{ width: '100%', height: '100%' }}
-            >
-              <div className="front">
-                <h1>Front</h1>
-              </div>
-              <div className="back">
-                <BackMain />
-              </div>
-            </motion.div>
-          </div>
-          {/*<Button
+    <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
+      {/*<p>{outStr}</p>*/}
+      <div className="App touch-pan-x select-none">
+        <div className="flipable-card-holder">
+          <motion.div
+            layout
+            className="flipable-card"
+            animate={{
+              rotateY: `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`,
+            }}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <div className="front">
+              <h1>Front</h1>
+            </div>
+            <div className="back">
+              <BackMain />
+            </div>
+          </motion.div>
+        </div>
+        {/*<Button
               onPress={() =>
                 downloadVcf({
                   firstname: 'Erika',
@@ -78,9 +76,8 @@ function App() {
               template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
               data={{ name: 'World', from: undefined }}
             />*/}
-        </div>
-      </motion.div>
-    </NextUIProvider>
+      </div>
+    </motion.div>
   );
 }
 
