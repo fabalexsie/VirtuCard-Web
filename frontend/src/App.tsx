@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import './App.scss';
 import { motion } from 'framer-motion';
 import { BackMain } from './backside/BackMain';
-import { useLoaderData } from 'react-router-dom';
+import {
+  useLoaderData,
+  useParams,
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+} from 'react-router-dom';
 import { Person } from './utils/data';
-import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom';
 
 export async function loader({ params }: LoaderFunctionArgs<any>) {
   const personData = await fetch(`/api/${params.userid}`).then(async (res) => {
@@ -16,15 +20,17 @@ export async function loader({ params }: LoaderFunctionArgs<any>) {
 
 export async function action({ request, params }: ActionFunctionArgs<any>) {
   const formData = await request.formData();
-  await fetch(`/api/${params.userid}`, {
-    method: 'POST',
+  await fetch(`/api/${params.userid}/${params.editpw}`, {
+    method: 'PUT',
     body: JSON.stringify(Object.fromEntries(formData)),
   });
   return { title: 'Card' };
 }
 
 function App() {
+  const params = useParams();
   const { personData } = useLoaderData() as { personData: Person };
+  const canShowEditScreen = params.editpw !== undefined;
 
   const [rotAnim, setRotAnim] = useState(0);
   const divPan = React.useRef<HTMLDivElement>(null);
@@ -39,10 +45,10 @@ function App() {
     if (info.velocity.x > 200 || (relOffset > 0.3 && rotAnim < -0.5)) {
       setRotAnim(0);
     } else if (info.velocity.x < -200 || (relOffset < -0.3 && rotAnim > -0.5)) {
-      setRotAnim(-1);
+      setRotAnim(canShowEditScreen ? -1 : 0);
     } else {
       if (rotAnim > -0.5) setRotAnim(0);
-      else setRotAnim(-1);
+      else setRotAnim(canShowEditScreen ? -1 : 0);
     }
   };
 
@@ -54,7 +60,9 @@ function App() {
             layout
             className="flipable-card"
             animate={{
-              rotateY: `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`,
+              rotateY: canShowEditScreen
+                ? `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`
+                : `${180 * Math.max(-0.1, Math.min(rotAnim, 0.1))}deg`,
             }}
             style={{ width: '100%', height: '100%' }}
           >

@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/:userid',
+    path: '/:userid/:editpw?',
     element: <App />,
     loader: personLoader,
     action: personAction,
