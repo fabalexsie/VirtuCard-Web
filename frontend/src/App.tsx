@@ -44,7 +44,7 @@ function App() {
     <NextUIProvider>
       <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
         {/*<p>{outStr}</p>*/}
-        <div className="App touch-pan-x">
+        <div className="App touch-pan-x select-none">
           <div className="flipable-card-holder">
             <motion.div
               layout
