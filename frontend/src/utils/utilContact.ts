@@ -1,26 +1,21 @@
+import { Person } from './data';
 import { downloadAsFile } from './util';
 import vCard from 'vcf';
 
-type Contact = {
-  firstname: string;
-  emailList: string[];
-  phoneList: Phone[];
-};
-
-type Phone = {
-  no: string;
-  type: 'work' | 'home' | 'work,voice' | 'home,voice' | string;
-};
-
-export function downloadVcf(contact: Contact) {
+export function downloadVcf(personData: Person) {
+  // TODO: add more fields to the vCard (vcf)
   let card = new vCard();
-  card.add('fn', contact.firstname);
-  for (const email of contact.emailList) {
-    card.add('email', email);
+  card.add('fn', personData.firstname);
+  for (const email of [personData.email]) {
+    if (email) card.add('email', email);
   }
-  for (const phone of contact.phoneList) {
-    card.add('tel', phone.no, { type: phone.type });
+  for (const phone of [personData.phone]) {
+    if (phone) card.add('tel', phone, { type: 'work' });
   }
   // n, org, title, photo, tel, adr
-  downloadAsFile(`${contact.firstname}.vcf`, card.toString(), vCard.mimeType);
+  downloadAsFile(
+    `${personData.firstname}.vcf`,
+    card.toString(),
+    vCard.mimeType,
+  );
 }
