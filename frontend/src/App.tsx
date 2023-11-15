@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { NextUIProvider } from '@nextui-org/react';
 import { motion } from 'framer-motion';
+import { BackMain } from './backside/BackMain';
 
 function App() {
   const [apiResult, setApiResult] = useState('API is loading');
@@ -58,7 +59,7 @@ function App() {
                 <h1>Front</h1>
               </div>
               <div className="back">
-                <h1>Back</h1>
+                <BackMain />
               </div>
             </motion.div>
           </div>
