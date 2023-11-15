@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import {
   Accordion,
   AccordionItem,
+  Autocomplete,
+  AutocompleteItem,
   Button,
   Input,
   InputProps,
@@ -12,6 +14,18 @@ import {
 
 function MyInput(props: InputProps) {
   return <Input className="my-4" color="primary" variant="flat" {...props} />;
+}
+
+function MyColorInput(props: InputProps) {
+  return (
+    <Input
+      className="my-4"
+      type="color"
+      labelPlacement="outside-left"
+      style={{ width: '3ex', height: '3ex' }}
+      {...props}
+    />
+  );
 }
 
 export function BackMain() {
@@ -63,6 +77,29 @@ export function BackMain() {
           {/*<MyInput label={t('Twitch')} />*/}
           {/*<MyInput label={t('Discord')} />*/}
           {/*<MyInput label={t('Medium')} />*/}
+        </AccordionItem>
+        <AccordionItem title={t('Other')} key={'other'}>
+          <MyInput
+            label={t('Birthday')}
+            type="date"
+            labelPlacement="outside-left"
+          />
+          <Textarea
+            className="my-4"
+            color="primary"
+            variant="flat"
+            label={t('Notes')}
+          />
+        </AccordionItem>
+        <AccordionItem title={t('Theming')} key={'theming'}>
+          <Autocomplete className="my-4" label={t('Layout Template')}>
+            <AutocompleteItem key="default" value="default" color="primary">
+              Default
+            </AutocompleteItem>
+          </Autocomplete>
+          <MyColorInput label={t('Primary color')} value={'#80ffdb'} />
+          <MyColorInput label={t('Secondary color')} value={'#5390d9'} />
+          <MyColorInput label={t('Accent color')} value={'#7400B8'} />
         </AccordionItem>
       </Accordion>
 
