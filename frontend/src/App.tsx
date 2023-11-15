@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { motion } from 'framer-motion';
 import { BackMain } from './backside/BackMain';
+import { useLoaderData } from 'react-router-dom';
+import { Person } from './utils/data';
+import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom';
+
+export async function loader({ params }: LoaderFunctionArgs<any>) {
+  const personData = await fetch(`/api/${params.userid}`).then(async (res) => {
+    if (200 <= res.status && res.status < 300) return res.json();
+    else throw new Error(`No success status code (200)\n${await res.text()}`);
+  });
+  return { personData };
+}
+
+export async function action({ request, params }: ActionFunctionArgs<any>) {
+  const formData = await request.formData();
+  await fetch(`/api/${params.userid}`, {
+    method: 'POST',
+    body: JSON.stringify(Object.fromEntries(formData)),
+  });
+  return { title: 'Card' };
+}
 
 function App() {
-  const [apiResult, setApiResult] = useState('API is loading');
-  const [rotAnim, setRotAnim] = useState(0);
-  const [outStr, setOutStr] = useState('');
-  const divPan = React.useRef<HTMLDivElement>(null);
+  const { personData } = useLoaderData() as { personData: Person };
 
-  useEffect(() => {
-    fetch('/api')
-      .then(async (res) => {
-        if (200 <= res.status && res.status < 300) return res.text();
-        else
-          throw new Error(`No success status code (200)\n${await res.text()}`);
-      })
-      .then((resText) => setApiResult(resText))
-      .catch((err) => setApiResult(`${err}`));
-  }, []);
+  const [rotAnim, setRotAnim] = useState(0);
+  const divPan = React.useRef<HTMLDivElement>(null);
 
   const handlePan = (event: any, info: any) => {
     // "2 *" move the card twice as fast as the finger
@@ -35,14 +44,10 @@ function App() {
       if (rotAnim > -0.5) setRotAnim(0);
       else setRotAnim(-1);
     }
-    setOutStr(
-      `offset: ${relOffset}\nvelocity: ${info.velocity.x}\nrotAnim: ${rotAnim}`,
-    );
   };
 
   return (
     <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
-      {/*<p>{outStr}</p>*/}
       <div className="App touch-pan-x select-none">
         <div className="flipable-card-holder">
           <motion.div
@@ -55,9 +60,10 @@ function App() {
           >
             <div className="front">
               <h1>Front</h1>
+              <pre>{JSON.stringify(personData)}</pre>
             </div>
             <div className="back">
-              <BackMain />
+              <BackMain openFrontPage={() => setRotAnim(0)} />
             </div>
           </motion.div>
         </div>

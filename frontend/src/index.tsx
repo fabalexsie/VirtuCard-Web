@@ -5,8 +5,23 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { NextUIProvider } from '@nextui-org/react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { loader as personLoader, action as personAction } from './App';
 
 import './i18n';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+  },
+  {
+    path: '/:userid',
+    element: <App />,
+    loader: personLoader,
+    action: personAction,
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,7 +29,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <NextUIProvider>
-      <App />
+      <RouterProvider router={router} />
     </NextUIProvider>
   </React.StrictMode>,
 );
