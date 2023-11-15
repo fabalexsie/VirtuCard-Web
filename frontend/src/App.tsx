@@ -7,7 +7,7 @@ function App() {
   const [apiResult, setApiResult] = useState('API is loading');
   const [rotAnim, setRotAnim] = useState(0);
   const [outStr, setOutStr] = useState('');
-  const cardRef = React.useRef<HTMLDivElement>(null);
+  const divPan = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch('/api')
@@ -22,11 +22,11 @@ function App() {
 
   const handlePan = (event: any, info: any) => {
     // "2 *" move the card twice as fast as the finger
-    const relDelta = (2 * info.delta.x) / (cardRef.current?.clientWidth || 1);
+    const relDelta = (2 * info.delta.x) / (divPan.current?.clientWidth || 1);
     setRotAnim(rotAnim + relDelta);
   };
   const handlePanEnd = (event: any, info: any) => {
-    const relOffset = info.offset.x / (cardRef.current?.clientWidth || 1);
+    const relOffset = info.offset.x / (divPan.current?.clientWidth || 1);
     if (info.velocity.x > 200 || (relOffset > 0.3 && rotAnim < -0.5)) {
       setRotAnim(0);
     } else if (info.velocity.x < -200 || (relOffset < -0.3 && rotAnim > -0.5)) {
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <NextUIProvider>
-      <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={cardRef}>
+      <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
         {/*<p>{outStr}</p>*/}
         <div className="App touch-pan-x">
           <div className="flipable-card-holder">
