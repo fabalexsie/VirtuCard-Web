@@ -19,12 +19,13 @@ export async function loader({ params }: LoaderFunctionArgs<any>) {
 }
 
 export async function action({ request, params }: ActionFunctionArgs<any>) {
-  const formData = await request.formData();
+  const jsonString = await request.text();
   await fetch(`/api/${params.userid}/${params.editpw}`, {
     method: 'PUT',
-    body: JSON.stringify(Object.fromEntries(formData)),
+    headers: { 'Content-Type': 'application/json' },
+    body: jsonString,
   });
-  return { title: 'Card' };
+  return null;
 }
 
 function App() {
@@ -71,7 +72,10 @@ function App() {
               <pre>{JSON.stringify(personData)}</pre>
             </div>
             <div className="back">
-              <BackMain openFrontPage={() => setRotAnim(0)} />
+              <BackMain
+                openFrontPage={() => setRotAnim(0)}
+                personData={personData}
+              />
             </div>
           </motion.div>
         </div>
