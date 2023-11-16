@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { motion } from 'framer-motion';
-import { BackMain } from './backside/BackMain';
+import { BackMain } from '../components/BackMain';
 import {
   useLoaderData,
   useParams,
   ActionFunctionArgs,
   LoaderFunctionArgs,
 } from 'react-router-dom';
-import { Person } from './utils/data';
+import { Person } from '../utils/data';
 
 export async function loader({ params }: LoaderFunctionArgs<any>) {
   const personData = await fetch(`/api/${params.userid}`).then(async (res) => {

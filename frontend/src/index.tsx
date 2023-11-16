@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './routes/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { NextUIProvider } from '@nextui-org/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { loader as personLoader, action as personAction } from './App';
+import { loader as personLoader, action as personAction } from './routes/App';
 
 import './i18n';
 
