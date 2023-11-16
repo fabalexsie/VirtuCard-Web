@@ -1,4 +1,5 @@
 import { Person } from '../frontend/src/utils/data';
+import { connectToFileDB } from './db-connector';
 
 type DBType = {
   persons: {
@@ -9,7 +10,7 @@ type DBType = {
   };
 };
 
-const DB: DBType = { persons: {} };
+const DB = connectToFileDB<DBType>();
 
 export async function updatePerson(
   personId: string,
