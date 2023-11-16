@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.scss';
+import './RBusinessCard.scss';
 import { motion } from 'framer-motion';
 import { BackMain } from '../components/BackMain';
 import {
@@ -28,7 +28,8 @@ export async function action({ request, params }: ActionFunctionArgs<any>) {
   return null;
 }
 
-function App() {
+export default RBusinessCard;
+function RBusinessCard() {
   const params = useParams();
   const { personData } = useLoaderData() as { personData: Person };
   const canShowEditScreen = params.editpw !== undefined;
@@ -98,5 +99,3 @@ function App() {
     </motion.div>
   );
 }
-
-export default App;

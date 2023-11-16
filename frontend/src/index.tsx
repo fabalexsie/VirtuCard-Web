@@ -1,23 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './routes/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { NextUIProvider } from '@nextui-org/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { loader as personLoader, action as personAction } from './routes/App';
+import RBusinessCard, {
+  loader as personLoader,
+  action as personAction,
+} from './routes/RBusinessCard';
+import RCreateTemplate from './routes/RCreateTemplate';
 
 import './i18n';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <RBusinessCard />,
+  },
+  {
+    path: '/createTemplate',
+    element: <RCreateTemplate />,
   },
   {
     path: '/:userid/:editpw?',
-    element: <App />,
+    element: <RBusinessCard />,
     loader: personLoader,
     action: personAction,
   },
