@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import './RBusinessCard.scss';
-import { motion } from 'framer-motion';
 import { BackMain } from '../components/BackMain';
 import {
   useLoaderData,
@@ -9,6 +8,7 @@ import {
   LoaderFunctionArgs,
 } from 'react-router-dom';
 import { Person } from '../utils/data';
+import FlippableCard, { FlipRefType } from '../components/FlippableCard';
 
 export async function loader({ params }: LoaderFunctionArgs<any>) {
   const personData = await fetch(`/api/${params.userid}`).then(async (res) => {
@@ -34,68 +34,21 @@ function RBusinessCard() {
   const { personData } = useLoaderData() as { personData: Person };
   const canShowEditScreen = params.editpw !== undefined;
 
-  const [rotAnim, setRotAnim] = useState(0);
-  const divPan = React.useRef<HTMLDivElement>(null);
+  const flipRef = useRef<FlipRefType>(null);
 
-  const handlePan = (event: any, info: any) => {
-    // "2 *" move the card twice as fast as the finger
-    const relDelta = (2 * info.delta.x) / (divPan.current?.clientWidth || 1);
-    setRotAnim(rotAnim + relDelta);
-  };
-  const handlePanEnd = (event: any, info: any) => {
-    const relOffset = info.offset.x / (divPan.current?.clientWidth || 1);
-    if (info.velocity.x > 200 || (relOffset > 0.3 && rotAnim < -0.5)) {
-      setRotAnim(0);
-    } else if (info.velocity.x < -200 || (relOffset < -0.3 && rotAnim > -0.5)) {
-      setRotAnim(canShowEditScreen ? -1 : 0);
-    } else {
-      if (rotAnim > -0.5) setRotAnim(0);
-      else setRotAnim(canShowEditScreen ? -1 : 0);
-    }
+  const handleOpenFrontPage = () => {
+    flipRef.current?.openFrontPage();
   };
 
   return (
-    <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
-      <div className="App touch-pan-x select-none">
-        <div className="flipable-card-holder">
-          <motion.div
-            layout
-            className="flipable-card"
-            animate={{
-              rotateY: canShowEditScreen
-                ? `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`
-                : `${180 * Math.max(-0.1, Math.min(rotAnim, 0.1))}deg`,
-            }}
-            style={{ width: '100%', height: '100%' }}
-          >
-            <div className="front">
-              <h1>Front</h1>
-              <pre>{JSON.stringify(personData)}</pre>
-            </div>
-            <div className="back">
-              <BackMain
-                openFrontPage={() => setRotAnim(0)}
-                personData={personData}
-              />
-            </div>
-          </motion.div>
-        </div>
-        {/*<Button
-              onPress={() =>
-                downloadVcf({
-                  firstname: 'Erika',
-                  emailList: ['erika@example.com'],
-                  phoneList: [{ no: '+49123456789', type: 'home' }],
-                })
-              }
-            >
-              Test
-            </Button>
-            <EjsRenderer
-              template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
-              data={{ name: 'World', from: undefined }}
-            />*/}
+    <FlippableCard onlyFirstPageAvailable={!canShowEditScreen} ref={flipRef}>
+      <div className="front">
+        <h1>Front</h1>
+        <pre>{JSON.stringify(personData)}</pre>
       </div>
-    </motion.div>
+      <div className="back">
+        <BackMain openFrontPage={handleOpenFrontPage} personData={personData} />
+      </div>
+    </FlippableCard>
   );
 }
