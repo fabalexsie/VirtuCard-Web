@@ -51,7 +51,7 @@ const FlippableCard = forwardRef(
 
     return (
       <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
-        <div className="App touch-pan-x select-none">
+        <div className="w-screen h-screen flex items-center justify-center touch-pan-y select-none">
           <div className="flipable-card-holder">
             <motion.div
               layout
