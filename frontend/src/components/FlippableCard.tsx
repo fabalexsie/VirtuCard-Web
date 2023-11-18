@@ -1,6 +1,7 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import './FlippableCard.scss';
 import { motion } from 'framer-motion';
+import Card from './Card';
 
 export type FlipRefType = {
   openFrontPage: () => void;
@@ -20,7 +21,6 @@ const FlippableCard = forwardRef(
     const [rotAnim, setRotAnim] = useState(0);
     const divPan = useRef<HTMLDivElement>(null);
 
-    // fill ref with life
     if (forwardRef != null) {
       (forwardRef as React.MutableRefObject<FlipRefType>).current = {
         openFrontPage: () => {
@@ -52,7 +52,7 @@ const FlippableCard = forwardRef(
     return (
       <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
         <div className="w-screen h-screen flex items-center justify-center touch-pan-y select-none">
-          <div className="flipable-card-holder">
+          <Card>
             <motion.div
               layout
               className="flipable-card"
@@ -65,7 +65,7 @@ const FlippableCard = forwardRef(
             >
               {children}
             </motion.div>
-          </div>
+          </Card>
           {/*<Button
             onPress={() =>
               downloadVcf({

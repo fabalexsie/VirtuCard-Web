@@ -1,35 +1,26 @@
-.flipable-card-holder {
-  display: flex;
+.flipable-card {
   position: relative;
-  width: calc(100vw - 40px);
-  max-width: 400px;
-  height: calc(100vh - 40px);
-  perspective: 1000px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
 
-  .flipable-card {
-    position: relative;
+  .front,
+  .back {
+    position: absolute;
     width: 100%;
     height: 100%;
-    text-align: center;
-    transform-style: preserve-3d;
+    border-radius: 25px;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
 
-    .front,
-    .back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 25px;
-      overflow: hidden;
-      backface-visibility: hidden;
-    }
+  .front {
+    background-color: dodgerblue;
+    color: white;
+  }
 
-    .front {
-      background-color: dodgerblue;
-      color: white;
-    }
-
-    .back {
-      transform: rotateY(180deg);
-    }
+  .back {
+    transform: rotateY(180deg);
   }
 }
