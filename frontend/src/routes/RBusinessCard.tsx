@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { BackMain } from '../components/BackMain';
 import {
   useLoaderData,
   useParams,
@@ -8,6 +7,8 @@ import {
 } from 'react-router-dom';
 import { Person } from '../utils/data';
 import FlippableCard, { FlipRefType } from '../components/FlippableCard';
+import { BackMain } from '../components/BackMain';
+import FrontMain from '../components/FrontMain';
 
 export async function loader({ params }: LoaderFunctionArgs<any>) {
   const personData = await fetch(`/api/${params.userid}`).then(async (res) => {
@@ -44,12 +45,7 @@ function RBusinessCard() {
       <FlippableCard
         onlyFirstPageAvailable={!canShowEditScreen}
         ref={flipRef}
-        front={
-          <>
-            <h1>Front</h1>
-            <pre>{JSON.stringify(personData)}</pre>
-          </>
-        }
+        front={<FrontMain personData={personData} />}
         back={
           <BackMain
             openFrontPage={handleOpenFrontPage}

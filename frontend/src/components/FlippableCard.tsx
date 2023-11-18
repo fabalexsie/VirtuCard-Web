@@ -1,7 +1,7 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import './FlippableCard.scss';
 import { motion } from 'framer-motion';
-import Card from './Card';
+import { CardWrapper } from './Card';
 
 export type FlipRefType = {
   openFrontPage: () => void;
@@ -59,7 +59,7 @@ const FlippableCard = forwardRef(
         ref={divPan}
       >
         <div className="w-full h-full flex items-center justify-center touch-pan-y select-none">
-          <Card>
+          <CardWrapper>
             <motion.div
               layout
               className="flipable-card"
@@ -68,12 +68,11 @@ const FlippableCard = forwardRef(
                   ? `${180 * Math.max(-0.1, Math.min(rotAnim, 0.1))}deg`
                   : `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`,
               }}
-              style={{ width: '100%', height: '100%' }}
             >
               <div className="front">{front}</div>
               <div className="back">{back}</div>
             </motion.div>
-          </Card>
+          </CardWrapper>
           {/*<Button
             onPress={() =>
               downloadVcf({

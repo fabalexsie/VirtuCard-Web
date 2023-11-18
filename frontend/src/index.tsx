@@ -9,6 +9,7 @@ import RBusinessCard, {
   loader as personLoader,
   action as personAction,
 } from './routes/RBusinessCard';
+import { loader as templateLoader } from './routes/RCreateTemplate';
 import RCreateTemplate from './routes/RCreateTemplate';
 
 import './i18n';
@@ -19,8 +20,9 @@ const router = createBrowserRouter([
     element: <RBusinessCard />,
   },
   {
-    path: '/createTemplate',
+    path: '/createTemplate/:userid?',
     element: <RCreateTemplate />,
+    loader: templateLoader,
   },
   {
     path: '/:userid/:editpw?',
