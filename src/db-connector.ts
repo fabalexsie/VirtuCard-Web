@@ -12,8 +12,7 @@ export function connectToFileDB<T extends { persons: object }>(): T {
     get: (target, prop) => {
       if (allowedCollections.includes(toValidFile(prop))) {
         return folderToObject(toValidFile(prop));
-      }
-      if (acceptNotDefinedValuesInTempDB) {
+      } else if (acceptNotDefinedValuesInTempDB) {
         if (!(prop in tempDB)) {
           tempDB[prop] = {};
         }
@@ -42,10 +41,10 @@ function folderToObject(folderName: string) {
     {},
     {
       has: (target, prop) => {
-        return files.includes(toValidFile(prop, 'json'));
+        return files.includes(toValidFile(prop, '.json'));
       },
       get: (target, prop) => {
-        if (files.includes(toValidFile(prop, 'json'))) {
+        if (files.includes(toValidFile(prop, '.json'))) {
           return JSON.parse(
             fs.readFileSync(
               path.join(dbFolder, folderName, toValidFile(prop, '.json')),
