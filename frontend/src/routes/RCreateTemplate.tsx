@@ -2,6 +2,8 @@ import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import Card from '../components/Card';
 import { Person } from '../utils/data';
 import FrontMain from '../components/FrontMain';
+import Editor from '@monaco-editor/react';
+import { useState } from 'react';
 
 export async function loader({
   params,
@@ -35,14 +37,29 @@ export default RCreateTemplate;
 function RCreateTemplate() {
   const { personData } = useLoaderData() as { personData: Person };
 
+  const [template, setTemplate] = useState<string>(
+    'Hello <%= firstname %><% if (from) { %> from <%= from %><% } %>!',
+  );
+
+  const handleEditorChange = (value: string | undefined) => {
+    setTemplate(value || '');
+  };
+
   return (
     <div className="w-screen h-screen flex flex-row">
       <div className="w-1/2 h-full flex items-center justify-center">
-        <Card className="bg-[dodgerblue]"></Card>
+        <Card className="bg-[dodgerblue]">
+          <Editor
+            className="w-full my-6"
+            value={template}
+            defaultLanguage="javascript"
+            onChange={handleEditorChange}
+          />
+        </Card>
       </div>
       <div className="w-1/2 h-full flex items-center justify-center">
         <Card className="bg-[dodgerblue] text-white">
-          <FrontMain personData={personData}></FrontMain>
+          <FrontMain personData={personData} templateStr={template}></FrontMain>
         </Card>
       </div>
     </div>

@@ -6,6 +6,8 @@ export function EjsRenderer(props: { template: string; data: object }) {
     let usedVars: string[] = Array.from(
       new Set(usedVarsObj.reads.concat(usedVarsObj.writes)),
     );
+    //console .log('Rendering uses vars:', usedVars);
+    //console .log('Provided data:', props.data);
     // TODO: check if all used vars are given in data
     let html = window.ejs.render(props.template, props.data);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;

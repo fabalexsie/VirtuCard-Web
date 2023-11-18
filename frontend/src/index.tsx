@@ -17,7 +17,8 @@ import './i18n';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RBusinessCard />,
+    element: <RCreateTemplate />,
+    loader: templateLoader,
   },
   {
     path: '/createTemplate/:userid?',
