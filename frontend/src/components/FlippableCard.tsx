@@ -10,10 +10,12 @@ export type FlipRefType = {
 const FlippableCard = forwardRef(
   (
     {
-      children,
+      front,
+      back,
       onlyFirstPageAvailable = false,
     }: {
-      children: React.ReactNode;
+      front: React.ReactNode;
+      back: React.ReactNode;
       onlyFirstPageAvailable?: boolean;
     },
     forwardRef: React.ForwardedRef<FlipRefType>,
@@ -50,8 +52,13 @@ const FlippableCard = forwardRef(
     };
 
     return (
-      <motion.div onPan={handlePan} onPanEnd={handlePanEnd} ref={divPan}>
-        <div className="w-screen h-screen flex items-center justify-center touch-pan-y select-none">
+      <motion.div
+        className="w-full h-full"
+        onPan={handlePan}
+        onPanEnd={handlePanEnd}
+        ref={divPan}
+      >
+        <div className="w-full h-full flex items-center justify-center touch-pan-y select-none">
           <Card>
             <motion.div
               layout
@@ -63,7 +70,8 @@ const FlippableCard = forwardRef(
               }}
               style={{ width: '100%', height: '100%' }}
             >
-              {children}
+              <div className="front">{front}</div>
+              <div className="back">{back}</div>
             </motion.div>
           </Card>
           {/*<Button

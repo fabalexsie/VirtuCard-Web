@@ -40,14 +40,23 @@ function RBusinessCard() {
   };
 
   return (
-    <FlippableCard onlyFirstPageAvailable={!canShowEditScreen} ref={flipRef}>
-      <div className="front">
-        <h1>Front</h1>
-        <pre>{JSON.stringify(personData)}</pre>
-      </div>
-      <div className="back">
-        <BackMain openFrontPage={handleOpenFrontPage} personData={personData} />
-      </div>
-    </FlippableCard>
+    <div className="w-screen h-screen">
+      <FlippableCard
+        onlyFirstPageAvailable={!canShowEditScreen}
+        ref={flipRef}
+        front={
+          <>
+            <h1>Front</h1>
+            <pre>{JSON.stringify(personData)}</pre>
+          </>
+        }
+        back={
+          <BackMain
+            openFrontPage={handleOpenFrontPage}
+            personData={personData}
+          />
+        }
+      ></FlippableCard>
+    </div>
   );
 }
