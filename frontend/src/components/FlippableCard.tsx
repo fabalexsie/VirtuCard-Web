@@ -73,21 +73,6 @@ const FlippableCard = forwardRef(
               <div className="back">{back}</div>
             </motion.div>
           </CardWrapper>
-          {/*<Button
-            onPress={() =>
-              downloadVcf({
-                firstname: 'Erika',
-                emailList: ['erika@example.com'],
-                phoneList: [{ no: '+49123456789', type: 'home' }],
-              })
-            }
-          >
-            Test
-          </Button>
-          <EjsRenderer
-            template="Hello <%= name %><% if (from) { %> from <%= from %><% } %>!"
-            data={{ name: 'World', from: undefined }}
-          />*/}
         </div>
       </motion.div>
     );

@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import CardWrapper from '../components/Card';
+import Card from '../components/Card';
 import { Person } from '../utils/data';
 import FrontMain from '../components/FrontMain';
 
@@ -38,12 +38,12 @@ function RCreateTemplate() {
   return (
     <div className="w-screen h-screen flex flex-row">
       <div className="w-1/2 h-full flex items-center justify-center">
-        <CardWrapper></CardWrapper>
+        <Card className="bg-[dodgerblue]"></Card>
       </div>
       <div className="w-1/2 h-full flex items-center justify-center">
-        <CardWrapper>
+        <Card className="bg-[dodgerblue] text-white">
           <FrontMain personData={personData}></FrontMain>
-        </CardWrapper>
+        </Card>
       </div>
     </div>
   );

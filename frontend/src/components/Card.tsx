@@ -6,10 +6,18 @@ export function CardWrapper({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export default function Card({ children }: { children?: React.ReactNode }) {
+export default function Card({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   return (
     <CardWrapper>
-      <div className="rounded-3xl overflow-hidden w-full h-full absolute bg-[dodgerblue]">
+      <div
+        className={`rounded-3xl overflow-hidden w-full h-full absolute ${className}`}
+      >
         {children}
       </div>
     </CardWrapper>
