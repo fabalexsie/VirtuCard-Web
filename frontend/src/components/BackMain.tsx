@@ -39,7 +39,9 @@ export function BackMain({
 }) {
   const { t } = useTranslation();
   let submit = useSubmit();
-  const [selectedKeys, setSelectedKeys] = useState<Set<Key>>(new Set(['']));
+  const [selectedAccordionKeys, setSelectedAccordionKeys] = useState<Set<Key>>(
+    new Set(['']),
+  );
 
   const [firstname, setFirstname] = useState(personData.firstname);
   const [lastname, setLastname] = useState(personData.lastname);
@@ -86,6 +88,8 @@ export function BackMain({
       },
       { method: 'PUT', encType: 'application/json' },
     );
+    // close all sections
+    setSelectedAccordionKeys(new Set(['']));
     openFrontPage();
   };
 
@@ -111,9 +115,9 @@ export function BackMain({
       <Accordion
         variant="light"
         selectionMode="multiple"
-        selectedKeys={selectedKeys}
+        selectedKeys={selectedAccordionKeys}
         onSelectionChange={(selected: 'all' | Set<Key>) =>
-          setSelectedKeys(
+          setSelectedAccordionKeys(
             selected === 'all' ? new Set(['social-media']) : selected,
           )
         }
