@@ -15,13 +15,20 @@ import { useSubmit } from 'react-router-dom';
 import { Person } from '../utils/data';
 
 function MyInput(props: InputProps) {
-  return <Input className="my-4" color="primary" variant="flat" {...props} />;
+  return (
+    <Input
+      className="my-4 w-auto mx-1"
+      color="primary"
+      variant="flat"
+      {...props}
+    />
+  );
 }
 
 function MyColorInput(props: InputProps) {
   return (
     <Input
-      className="my-4"
+      className="my-4 w-auto mx-1"
       type="color"
       labelPlacement="outside-left"
       style={{ width: '3ex', height: '3ex' }}
@@ -128,7 +135,7 @@ export function BackMain({
           <Textarea
             value={address}
             onValueChange={setAddress}
-            className="my-4"
+            className="my-4  w-auto mx-1"
             color="primary"
             variant="flat"
             label={t('Address')}
@@ -170,7 +177,6 @@ export function BackMain({
           <MyInput
             value={birthday}
             onValueChange={setBirthday}
-            className="my-4"
             label={t('Birthday')}
             type="date"
             labelPlacement="outside-left"
@@ -178,7 +184,7 @@ export function BackMain({
           <Textarea
             value={notes}
             onValueChange={setNotes}
-            className="my-4"
+            className="my-4 w-auto mx-1"
             color="primary"
             variant="flat"
             label={t('Notes')}
@@ -188,7 +194,7 @@ export function BackMain({
           <Autocomplete
             selectedKey={themeSelectedName}
             onSelectionChange={setThemeSelectedName}
-            className="my-4"
+            className="my-4 w-auto mx-1"
             label={t('Layout Template')}
           >
             <AutocompleteItem key="default" value="default" color="primary">
