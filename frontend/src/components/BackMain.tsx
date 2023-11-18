@@ -51,7 +51,7 @@ export function BackMain({
   const [github, setGithub] = useState(personData.github);
   const [birthday, setBirthday] = useState(personData.birthday);
   const [notes, setNotes] = useState(personData.notes);
-  const [themeSelectedName, setThemeSelectedName] = useState(
+  const [themeSelectedName, setThemeSelectedName] = useState<Key>(
     personData.theme.selectedName,
   );
   const [themePrimaryColor, setThemePrimaryColor] = useState(
@@ -182,8 +182,8 @@ export function BackMain({
         </AccordionItem>
         <AccordionItem title={t('Theming')} key={'theming'}>
           <Autocomplete
-            value={themeSelectedName}
-            onValueChange={setThemeSelectedName}
+            selectedKey={themeSelectedName}
+            onSelectionChange={setThemeSelectedName}
             className="my-4"
             label={t('Layout Template')}
           >
