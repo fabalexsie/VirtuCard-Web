@@ -29,8 +29,7 @@ const reservedJsxTags = ['Search', 'Component'];
 const jsxRegex = new RegExp(`(<)(${reservedJsxTags.join('|')})`);
 //console .log(jsxRegex);
 export const conf: monaco.languages.LanguageConfiguration = {
-  wordPattern:
-    /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
+  wordPattern: /(-?\d*\.\d\w*)|([^`~!@$^&*()=+[{\]}\\|;:'",.<>/\s]+)/g,
 
   comments: {
     blockComment: ['<!--', '-->'],
@@ -107,13 +106,13 @@ export const language = {
       [/<!DOCTYPE/, 'metatag', '@doctype'],
       [/<!--/, 'comment', '@comment'],
       [
-        /(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/,
+        /(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/,
         ['delimiter', 'tag', '', 'delimiter'],
       ],
       [/(<)(script)/, ['delimiter', { token: 'tag', next: '@script' }]],
       [/(<)(style)/, ['delimiter', { token: 'tag', next: '@style' }]],
       [
-        /(<)((?:[\w\-]+:)?[\w\-]+)/,
+        /(<)((?:[\w-]+:)?[\w-]+)/,
         {
           cases: {
             // '$S2 == @reservedJsxTags': { token: 'keyword.jsx' },
@@ -122,7 +121,7 @@ export const language = {
         },
       ],
       [
-        /(<\/)((?:[\w\-]+:)?[\w\-]+)/,
+        /(<\/)((?:[\w-]+:)?[\w-]+)/,
         ['delimiter', { token: 'tag', next: '@otherTag' }],
       ],
       [/</, 'delimiter'],
@@ -158,7 +157,7 @@ export const language = {
       [/\/?>/, 'delimiter', '@pop'],
       [/"([^"]*)"/, 'attribute.value'],
       [/'([^']*)'/, 'attribute.value'],
-      [/[\w\-]+/, 'attribute.name'],
+      [/[\w-]+/, 'attribute.name'],
       [/=/, 'delimiter'],
       [/[ \t\r\n]+/], // whitespace
     ],
@@ -170,7 +169,7 @@ export const language = {
       [/type/, 'attribute.name', '@scriptAfterType'],
       [/"([^"]*)"/, 'attribute.value'],
       [/'([^']*)'/, 'attribute.value'],
-      [/[\w\-]+/, 'attribute.name'],
+      [/[\w-]+/, 'attribute.name'],
       [/=/, 'delimiter'],
       [
         />/,
@@ -236,7 +235,7 @@ export const language = {
       ],
       [/"([^"]*)"/, 'attribute.value'],
       [/'([^']*)'/, 'attribute.value'],
-      [/[\w\-]+/, 'attribute.name'],
+      [/[\w-]+/, 'attribute.name'],
       [/=/, 'delimiter'],
       [/[ \t\r\n]+/], // whitespace
       [/<\/script\s*>/, { token: '@rematch', next: '@pop' }],
@@ -256,7 +255,7 @@ export const language = {
       [/type/, 'attribute.name', '@styleAfterType'],
       [/"([^"]*)"/, 'attribute.value'],
       [/'([^']*)'/, 'attribute.value'],
-      [/[\w\-]+/, 'attribute.name'],
+      [/[\w-]+/, 'attribute.name'],
       [/=/, 'delimiter'],
       [
         />/,
@@ -318,7 +317,7 @@ export const language = {
       ],
       [/"([^"]*)"/, 'attribute.value'],
       [/'([^']*)'/, 'attribute.value'],
-      [/[\w\-]+/, 'attribute.name'],
+      [/[\w-]+/, 'attribute.name'],
       [/=/, 'delimiter'],
       [/[ \t\r\n]+/], // whitespace
       [/<\/style\s*>/, { token: '@rematch', next: '@pop' }],
