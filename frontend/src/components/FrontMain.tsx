@@ -13,6 +13,7 @@ export default function FrontMain({
 }) {
   const [template, setTemplate] = useState<string>(templateStr || '');
 
+  // load template if templateStr is undefined
   useEffect(() => {
     if (templateStr === undefined) {
       fetch(`/api/template/${personData.theme.selectedName}`).then(
@@ -29,8 +30,13 @@ export default function FrontMain({
     }
   }, [templateStr, personData]);
 
+  // update template if templateStr changes
+  useEffect(() => {
+    if (templateStr) setTemplate(templateStr);
+  }, [templateStr]);
+
   return (
-    <div className="w-full h-full text-center">
+    <div className="w-full h-full text-center overflow-y-auto">
       <h1>Front</h1>
       <pre className="text-left">{JSON.stringify(personData, null, 2)}</pre>
       <Button onPress={() => downloadVcf(personData)}>Download VCF</Button>
