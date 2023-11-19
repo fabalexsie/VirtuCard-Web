@@ -2,8 +2,8 @@ import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import Card from '../components/Card';
 import { Person } from '../utils/data';
 import FrontMain from '../components/FrontMain';
-import Editor from '@monaco-editor/react';
 import { useState } from 'react';
+import EjsEditor from '../components/EjsEditor';
 
 export async function loader({
   params,
@@ -38,7 +38,7 @@ function RCreateTemplate() {
   const { personData } = useLoaderData() as { personData: Person };
 
   const [template, setTemplate] = useState<string>(
-    'Hello <%= firstname %><% if (from) { %> from <%= from %><% } %>!',
+    'Hello <%= firstname %><% if (from) { %> from <%= from %><% } %>!\n',
   );
 
   const handleEditorChange = (value: string | undefined) => {
@@ -49,12 +49,7 @@ function RCreateTemplate() {
     <div className="w-screen h-screen flex flex-row">
       <div className="w-1/2 h-full flex items-center justify-center">
         <Card className="bg-[dodgerblue]">
-          <Editor
-            className="w-full my-6"
-            value={template}
-            defaultLanguage="javascript"
-            onChange={handleEditorChange}
-          />
+          <EjsEditor value={template} onChange={handleEditorChange} />
         </Card>
       </div>
       <div className="w-1/2 h-full flex items-center justify-center">
