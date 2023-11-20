@@ -5,6 +5,7 @@ import {
   conf as languageConfig,
 } from '../monaco-ejs/ejs-language-defs';
 import { IDisposable } from 'monaco-editor';
+import { html_beautify } from 'js-beautify';
 
 export default function EjsEditor({
   value,
@@ -51,6 +52,45 @@ export default function EjsEditor({
               };
             }),
           };
+        },
+      });
+
+      monaco.languages.registerDocumentFormattingEditProvider('ejs', {
+        provideDocumentFormattingEdits: (model, options, token) => {
+          return [
+            {
+              range: model.getFullModelRange(),
+              text: html_beautify(model.getValue(), {
+                indent_size: 2,
+                preserve_newlines: true,
+                max_preserve_newlines: 2,
+                end_with_newline: true,
+              }),
+            },
+          ];
+        },
+      });
+      monaco.languages.registerDocumentRangeFormattingEditProvider('ejs', {
+        provideDocumentRangeFormattingEdits: (model, range, options, token) => {
+          // modify range to match complete lines
+          range = new monaco.Range(
+            range.startLineNumber,
+            1,
+            range.endLineNumber,
+            model.getLineMaxColumn(range.endLineNumber),
+          );
+
+          return [
+            {
+              range: range,
+              text: html_beautify(model.getValueInRange(range), {
+                indent_size: 2,
+                preserve_newlines: true,
+                max_preserve_newlines: 2,
+                end_with_newline: false,
+              }),
+            },
+          ];
         },
       });
     }
