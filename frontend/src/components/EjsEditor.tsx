@@ -67,13 +67,10 @@ export default function EjsEditor({
       className="w-full my-6"
       value={value}
       defaultLanguage="ejs"
+      theme="vs-dark"
       options={{
-        lineNumbers: 'on',
-        scrollBeyondLastLine: true,
-        readOnly: false,
         wordWrap: 'on',
         wrappingIndent: 'indent',
-        theme: 'vs-dark',
       }}
       onChange={onChange}
     />
