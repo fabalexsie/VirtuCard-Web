@@ -42,7 +42,13 @@ export default function FrontMain({
       <Button onPress={() => downloadVcf(personData)}>Download VCF</Button>
       <EjsRenderer
         template={template}
-        data={{ ...personData, from: undefined }}
+        data={{
+          ...personData,
+          from: undefined,
+          clickListener: {
+            downloadVcf: () => downloadVcf(personData),
+          },
+        }}
       />
     </div>
   );
