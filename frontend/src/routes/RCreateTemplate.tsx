@@ -42,7 +42,7 @@ function RCreateTemplate() {
   const [template, setTemplate] = useState<string>(
     [
       '<h1>Hello <%= firstname %></h1>',
-      'Hello <%= firstname %><% if (from) { %> from <%= from %><% } %>!',
+      '<% if (birthday) { %> birthday <%= birthday %><% } %>!',
       '<p>Some more text</p>',
       '<div>',
       '<a href="https://<%= website %>">Website (<%= website %>)</a>',
@@ -59,13 +59,17 @@ function RCreateTemplate() {
     <div className="w-screen md:h-screen flex flex-row flex-wrap md:flex-nowrap">
       <div className="w-full md:w-3/5 h-full my-4 md:my-0 flex items-center justify-center">
         <Card className="bg-[dodgerblue]" slim={false}>
-          <h1 className="mt-4">
-            {humanId({
-              separator: '-',
-              capitalize: false,
-            })}
-          </h1>
-          <EjsEditor value={template} onChange={handleEditorChange} />
+          <div className="w-full h-full flex flex-col">
+            <h1 className="mt-4 text-center">
+              {humanId({
+                separator: '-',
+                capitalize: false,
+              })}
+            </h1>
+            <div className="w-full flex-grow my-4">
+              <EjsEditor value={template} onChange={handleEditorChange} />
+            </div>
+          </div>
         </Card>
       </div>
       <div className="w-full md:w-2/5 h-full my-4 md:my-0 flex items-center justify-center">
