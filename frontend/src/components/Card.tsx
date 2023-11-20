@@ -1,6 +1,16 @@
-export function CardWrapper({ children }: { children?: React.ReactNode }) {
+export function CardWrapper({
+  children,
+  slim = true,
+}: {
+  children?: React.ReactNode;
+  slim?: boolean;
+}) {
   return (
-    <div className="flex relative max-w-md [perspective:1000px] w-[calc(100vw-40px)] h-[calc(100vh-40px)]">
+    <div
+      className={`flex relative [perspective:1000px] w-[calc(100vw-40px)] ${
+        slim ? 'max-w-md' : 'max-w-2xl 2xl:max-w-4xl'
+      } h-[calc(100vh-40px)]`}
+    >
       {children}
     </div>
   );
@@ -9,12 +19,14 @@ export function CardWrapper({ children }: { children?: React.ReactNode }) {
 export default function Card({
   children,
   className,
+  slim = true,
 }: {
   children?: React.ReactNode;
   className?: string;
+  slim?: boolean;
 }) {
   return (
-    <CardWrapper>
+    <CardWrapper slim={slim}>
       <div
         className={`rounded-3xl overflow-hidden w-full h-full absolute ${className}`}
       >
