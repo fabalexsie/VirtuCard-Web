@@ -36,8 +36,6 @@ export default function FrontMain({
 
   return (
     <div className="w-full h-full text-center overflow-y-auto">
-      <h1>Front</h1>
-      <pre className="text-left">{JSON.stringify(personData, null, 2)}</pre>
       <EjsRenderer
         template={template}
         data={{

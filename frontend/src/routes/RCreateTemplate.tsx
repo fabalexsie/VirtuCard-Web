@@ -4,6 +4,7 @@ import { Person } from '../utils/data';
 import FrontMain from '../components/FrontMain';
 import { useState } from 'react';
 import EjsEditor from '../components/EjsEditor';
+import humanId from 'human-id';
 
 export async function loader({
   params,
@@ -39,7 +40,15 @@ function RCreateTemplate() {
   const { personData } = useLoaderData() as { personData: Person };
 
   const [template, setTemplate] = useState<string>(
-    'Hello <%= firstname %><% if (from) { %> from <%= from %><% } %>!\n',
+    [
+      '<h1>Hello <%= firstname %></h1>',
+      'Hello <%= firstname %><% if (from) { %> from <%= from %><% } %>!',
+      '<p>Some more text</p>',
+      '<div>',
+      '<a href="https://<%= website %>">Website (<%= website %>)</a>',
+      '<a href="<%= linkedin %>">LinkedIn</a>',
+      '</div>',
+    ].join('\n'),
   );
 
   const handleEditorChange = (value: string | undefined) => {
@@ -50,6 +59,12 @@ function RCreateTemplate() {
     <div className="w-screen md:h-screen flex flex-row flex-wrap md:flex-nowrap">
       <div className="w-full md:w-3/5 h-full my-4 md:my-0 flex items-center justify-center">
         <Card className="bg-[dodgerblue]" slim={false}>
+          <h1 className="mt-4">
+            {humanId({
+              separator: '-',
+              capitalize: false,
+            })}
+          </h1>
           <EjsEditor value={template} onChange={handleEditorChange} />
         </Card>
       </div>
