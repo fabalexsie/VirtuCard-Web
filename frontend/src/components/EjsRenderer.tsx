@@ -20,10 +20,14 @@ export function EjsRenderer({
       let usedVars: string[] = Array.from(
         new Set(usedVarsObj.reads.concat(usedVarsObj.writes)),
       );
-      //console .log('Rendering uses vars:', usedVars);
-      //console .log('Provided data:', props.data);
-      // TODO: check if all used vars are given in data
-      let html = window.ejs.render(template, data);
+      // set used vars to undefined if not given (less errors in the script)
+      const missingVars = usedVars.filter((varName) => !(varName in data));
+      const missingVarObjects = missingVars.map((varName) => ({
+        [varName]: undefined,
+      }));
+      const missingVarObj = Object.assign({}, ...missingVarObjects);
+
+      let html = window.ejs.render(template, { ...missingVarObj, ...data });
 
       setRenderedHtmlStr(html);
       setRenderError(null);

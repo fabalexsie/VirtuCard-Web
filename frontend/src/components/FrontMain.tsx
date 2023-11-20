@@ -1,4 +1,3 @@
-import { Button } from '@nextui-org/react';
 import { Person } from '../utils/data';
 import { downloadVcf } from '../utils/utilContact';
 import { EjsRenderer } from './EjsRenderer';
@@ -39,12 +38,10 @@ export default function FrontMain({
     <div className="w-full h-full text-center overflow-y-auto">
       <h1>Front</h1>
       <pre className="text-left">{JSON.stringify(personData, null, 2)}</pre>
-      <Button onPress={() => downloadVcf(personData)}>Download VCF</Button>
       <EjsRenderer
         template={template}
         data={{
           ...personData,
-          from: undefined,
           clickListener: {
             downloadVcf: () => downloadVcf(personData),
           },
