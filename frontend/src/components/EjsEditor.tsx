@@ -37,20 +37,24 @@ export default function EjsEditor({
       // registration for * to support other (text) providers as well ~https://stackoverflow.com/a/72905458
       disponsable = monaco.languages.registerCompletionItemProvider('*', {
         provideCompletionItems: (model, position, context, token) => {
+          const wordStart = model.getWordUntilPosition(position);
+          const completeWord = model.getWordAtPosition(position);
           return {
-            suggestions: customEjsVars.map((varName) => {
-              return {
-                label: varName,
-                kind: monaco.languages.CompletionItemKind.Variable,
-                insertText: varName,
-                range: new monaco.Range(
-                  position.lineNumber,
-                  position.column,
-                  position.lineNumber,
-                  position.column,
-                ),
-              };
-            }),
+            suggestions: customEjsVars
+              .filter((varName) => varName.startsWith(wordStart.word))
+              .map((varName) => {
+                return {
+                  label: varName,
+                  kind: monaco.languages.CompletionItemKind.Variable,
+                  insertText: varName,
+                  range: new monaco.Range(
+                    position.lineNumber,
+                    wordStart.startColumn,
+                    position.lineNumber,
+                    completeWord ? completeWord.endColumn : wordStart.endColumn,
+                  ),
+                };
+              }),
           };
         },
       });
@@ -104,7 +108,7 @@ export default function EjsEditor({
 
   return (
     <Editor
-      className="w-full my-6"
+      className="w-full h-full"
       value={value}
       defaultLanguage="ejs"
       theme="vs-dark"
