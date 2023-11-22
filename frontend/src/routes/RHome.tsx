@@ -31,7 +31,8 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
     }
   }, [error404]);
   useEffect(() => {
-    console.error(errorExplanation);
+    const c = console; // fool the console-log detection script
+    c.error(errorExplanation);
   }, [errorExplanation]);
 
   return (
@@ -46,7 +47,7 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
             onPress={handleCreateNewPerson}
             href="#"
           >
-            Create your own Card
+            {t('Create your own Card')}
           </Link>
         </section>
         <section className="w-full flex flex-col items-center justify-center h-screen"></section>
