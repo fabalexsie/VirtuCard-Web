@@ -21,7 +21,7 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
           throw new Error(`No success status code (200)\n${await res.text()}`);
       },
     );
-    window.location.href = `/${newCardResp.personId}/${newCardResp.editpw}`;
+    window.location.href = `/p/${newCardResp.personId}/${newCardResp.editpw}`;
   };
 
   useEffect(() => {
