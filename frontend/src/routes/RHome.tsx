@@ -28,11 +28,10 @@ export default function RHome() {
             {t('Welcome to VirtuCard!')}
           </h1>
           <p className="text-3xl mt-4">
-            {t('Get started by')}{' '}
+            {t('Get Started:')}{' '}
             <Link className="text-3xl" onPress={handleCreateNewPerson} href="#">
-              creating
-            </Link>{' '}
-            your own Card
+              Create your own Card
+            </Link>
           </p>
         </section>
         <section className="w-full flex flex-col items-center justify-center h-screen"></section>

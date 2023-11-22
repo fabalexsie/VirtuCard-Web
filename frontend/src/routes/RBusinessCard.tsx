@@ -42,7 +42,9 @@ function RBusinessCard() {
 
   useEffect(() => {
     if (!personData.firstname || !personData.lastname) {
-      flipRef.current?.openBackPage();
+      setTimeout(() => {
+        flipRef.current?.openBackPage();
+      }, 500);
     }
   }, [personData.firstname, personData.lastname]);
 
