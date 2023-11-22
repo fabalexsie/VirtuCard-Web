@@ -5,6 +5,7 @@ import { CardWrapper } from './Card';
 
 export type FlipRefType = {
   openFrontPage: () => void;
+  openBackPage: () => void;
 };
 
 const FlippableCard = forwardRef(
@@ -27,6 +28,9 @@ const FlippableCard = forwardRef(
       (forwardRef as React.MutableRefObject<FlipRefType>).current = {
         openFrontPage: () => {
           setRotAnim(0);
+        },
+        openBackPage: () => {
+          if (!onlyFirstPageAvailable) setRotAnim(-1);
         },
       };
     }

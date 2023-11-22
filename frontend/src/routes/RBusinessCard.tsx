@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   useLoaderData,
   useParams,
@@ -39,6 +39,12 @@ function RBusinessCard() {
   const handleOpenFrontPage = () => {
     flipRef.current?.openFrontPage();
   };
+
+  useEffect(() => {
+    if (!personData.firstname || !personData.lastname) {
+      flipRef.current?.openBackPage();
+    }
+  }, [personData.firstname, personData.lastname]);
 
   return (
     <div className="w-screen h-screen">

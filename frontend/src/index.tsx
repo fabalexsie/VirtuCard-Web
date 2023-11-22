@@ -11,13 +11,14 @@ import RBusinessCard, {
 } from './routes/RBusinessCard';
 import { loader as templateLoader } from './routes/RCreateTemplate';
 import RCreateTemplate from './routes/RCreateTemplate';
+import RHome from './routes/RHome';
 
 import './i18n';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RCreateTemplate />,
+    element: <RHome />,
     loader: templateLoader,
   },
   {

@@ -12,6 +12,21 @@ type DBType = {
 
 const DB = connectToFileDB<DBType>();
 
+export function createEmptyPerson(personId: string, editpw: string) {
+  const newPerson: Person = {
+    firstname: '',
+    lastname: '',
+    theme: {
+      selectedName: 'default',
+      primaryColor: '#80ffdb',
+      secondaryColor: '#5390d9',
+      accentColor: '#7400B8',
+    },
+  };
+  DB.persons[personId] = { data: newPerson, editpw };
+  return Promise.resolve(newPerson);
+}
+
 export async function updatePerson(
   personId: string,
   editpw: string,
@@ -33,6 +48,7 @@ export function getPerson(personId: string) {
   if (personFound) {
     return personFound.data;
   } else {
+    // TODO Error handling
     return {
       firstname: 'Test',
       lastname: 'User',
