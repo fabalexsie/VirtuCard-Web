@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@nextui-org/react';
 import { toast } from 'react-toastify';
+import { useRouteError } from 'react-router-dom';
 
 type NewCardResponse = {
   personId: string;
@@ -10,6 +11,7 @@ type NewCardResponse = {
 
 export default function RHome({ error404 = false }: { error404?: boolean }) {
   const { t } = useTranslation();
+  const errorExplanation = useRouteError();
 
   const handleCreateNewPerson = async () => {
     const newCardResp: NewCardResponse = await fetch(`/api/new-card`).then(
@@ -28,6 +30,9 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
       return () => toast.dismiss(toastId);
     }
   }, [error404]);
+  useEffect(() => {
+    console.error(errorExplanation);
+  }, [errorExplanation]);
 
   return (
     <>
@@ -36,12 +41,13 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
           <h1 className="text-6xl font-semibold">
             {t('Welcome to VirtuCard!')}
           </h1>
-          <p className="text-3xl mt-4">
-            {t('Get Started:')}{' '}
-            <Link className="text-3xl" onPress={handleCreateNewPerson} href="#">
-              Create your own Card
-            </Link>
-          </p>
+          <Link
+            className="text-3xl mt-4"
+            onPress={handleCreateNewPerson}
+            href="#"
+          >
+            Create your own Card
+          </Link>
         </section>
         <section className="w-full flex flex-col items-center justify-center h-screen"></section>
       </div>
