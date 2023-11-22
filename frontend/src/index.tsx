@@ -13,6 +13,9 @@ import { loader as templateLoader } from './routes/RCreateTemplate';
 import RCreateTemplate from './routes/RCreateTemplate';
 import RHome from './routes/RHome';
 
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 import './i18n';
 
 const router = createBrowserRouter([
@@ -20,6 +23,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <RHome />,
     loader: templateLoader,
+    errorElement: <RHome error404={true} />,
   },
   {
     path: '/createTemplate/:userid?',
@@ -27,7 +31,7 @@ const router = createBrowserRouter([
     loader: templateLoader,
   },
   {
-    path: '/:userid/:editpw?',
+    path: '/p/:userid/:editpw?',
     element: <RBusinessCard />,
     loader: personLoader,
     action: personAction,
@@ -42,6 +46,15 @@ root.render(
     <NextUIProvider>
       <RouterProvider router={router} />
     </NextUIProvider>
+    <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      closeOnClick={true}
+      pauseOnHover={true}
+      draggable={true}
+      theme="dark"
+      transition={Slide}
+    />
   </React.StrictMode>,
 );
 

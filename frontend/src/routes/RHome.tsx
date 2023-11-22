@@ -1,12 +1,14 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@nextui-org/react';
+import { toast } from 'react-toastify';
 
 type NewCardResponse = {
   personId: string;
   editpw: string;
 };
 
-export default function RHome() {
+export default function RHome({ error404 = false }: { error404?: boolean }) {
   const { t } = useTranslation();
 
   const handleCreateNewPerson = async () => {
@@ -19,6 +21,13 @@ export default function RHome() {
     );
     window.location.href = `/${newCardResp.personId}/${newCardResp.editpw}`;
   };
+
+  useEffect(() => {
+    if (error404) {
+      const toastId = toast.warn('The requested page was not found');
+      return () => toast.dismiss(toastId);
+    }
+  }, [error404]);
 
   return (
     <>
