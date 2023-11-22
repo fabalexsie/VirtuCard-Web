@@ -23,7 +23,7 @@ export async function loader({
       },
     };
   } else {
-    const personData = await fetch(`/api/${params.userid}`).then(
+    const personData = await fetch(`/api/p/${params.userid}`).then(
       async (res) => {
         if (200 <= res.status && res.status < 300)
           return res.json(); // TODO: load template

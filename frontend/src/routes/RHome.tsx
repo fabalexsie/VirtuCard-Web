@@ -14,7 +14,7 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
   const errorExplanation = useRouteError();
 
   const handleCreateNewPerson = async () => {
-    const newCardResp: NewCardResponse = await fetch(`/api/new-card`).then(
+    const newCardResp: NewCardResponse = await fetch(`/api/p/new-card`).then(
       async (res) => {
         if (200 <= res.status && res.status < 300) return res.json();
         else
