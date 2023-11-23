@@ -16,3 +16,8 @@ export type Person = {
     accentColor: string;
   };
 };
+
+export type Template = {
+  name: string;
+  template: string;
+};

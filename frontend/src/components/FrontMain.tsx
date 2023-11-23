@@ -15,17 +15,15 @@ export default function FrontMain({
   // load template if templateStr is undefined
   useEffect(() => {
     if (templateStr === undefined) {
-      fetch(`/api/template/${personData.theme.selectedName}`).then(
-        async (res) => {
-          if (200 <= res.status && res.status < 300) {
-            setTemplate(await res.text());
-          } else {
-            setTemplate(
-              `<h1>Error loading template: ${personData.theme.selectedName}</h1>`,
-            );
-          }
-        },
-      );
+      fetch(`/api/t/${personData.theme.selectedName}`).then(async (res) => {
+        if (200 <= res.status && res.status < 300) {
+          setTemplate((await res.json()).template);
+        } else {
+          setTemplate(
+            `<h1>Error loading template: ${personData.theme.selectedName}</h1>`,
+          );
+        }
+      });
     }
   }, [templateStr, personData]);
 

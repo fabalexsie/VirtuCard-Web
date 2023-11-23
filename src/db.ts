@@ -1,10 +1,16 @@
-import { Person } from '../frontend/src/utils/data';
+import { Person, Template } from '../frontend/src/utils/data';
 import { connectToFileDB } from './db-connector';
 
 type DBType = {
   persons: {
     [key: string]: {
       data: Person;
+      editpw: string;
+    };
+  };
+  templates: {
+    [key: string]: {
+      data: Template;
       editpw: string;
     };
   };
@@ -59,5 +65,14 @@ export function getPerson(personId: string) {
         accentColor: '#7400B8',
       },
     };
+  }
+}
+
+export function getTemplate(templateId: string) {
+  const tempalteFound = DB.templates[templateId];
+  if (tempalteFound) {
+    return tempalteFound.data;
+  } else {
+    return null;
   }
 }

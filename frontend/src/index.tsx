@@ -22,11 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <RHome />,
-    loader: templateLoader,
     errorElement: <RHome error404={true} />,
   },
   {
-    path: '/createTemplate/:userid?',
+    path: '/t/:templateid/:editpw?', // optional get params: previewid=:userid
     element: <RCreateTemplate />,
     loader: templateLoader,
   },

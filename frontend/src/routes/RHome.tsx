@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@nextui-org/react';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
   const errorExplanation = useRouteError();
 
   const handleCreateNewPerson = async () => {
-    const newCardResp: NewCardResponse = await fetch(`/api/p/new-card`).then(
+    const newCardResp: NewCardResponse = await fetch(`/api/p/new`).then(
       async (res) => {
         if (200 <= res.status && res.status < 300) return res.json();
         else
