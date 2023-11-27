@@ -7,7 +7,7 @@ import { NewTemplateResponse } from '../frontend/src/utils/data';
 export const templateRouter = express.Router();
 
 templateRouter.get('/new', (req, res) => {
-  const newTemplateId = humanId();
+  const newTemplateId = humanId({ separator: '-', capitalize: false });
   const password = randomUUID();
   createNewDefaultTemplate(newTemplateId, password);
   res.send({
