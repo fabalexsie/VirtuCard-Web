@@ -43,7 +43,7 @@ export function EjsRenderer({
     }
   }, [template, data]);
 
-  // set clickListeners to html elements
+  // set clickListeners to html elements + make a elements open in new tab
   useEffect(() => {
     const currentOuterRef = outerRef.current;
 
@@ -59,6 +59,13 @@ export function EjsRenderer({
           }
         },
       );
+
+      const aElements = currentOuterRef?.getElementsByTagName('a');
+      if (aElements != null) {
+        for (let i = 0; i < aElements.length; i++) {
+          aElements.item(i)?.setAttribute('target', '_blank');
+        }
+      }
     }
 
     // to prevent adding multiple event listeners
