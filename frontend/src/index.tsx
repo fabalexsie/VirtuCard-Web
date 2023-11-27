@@ -9,7 +9,10 @@ import RBusinessCard, {
   loader as personLoader,
   action as personAction,
 } from './routes/RBusinessCard';
-import { loader as templateLoader } from './routes/RCreateTemplate';
+import {
+  loader as templateLoader,
+  action as templateAction,
+} from './routes/RCreateTemplate';
 import RCreateTemplate from './routes/RCreateTemplate';
 import RHome from './routes/RHome';
 
@@ -28,6 +31,7 @@ const router = createBrowserRouter([
     path: '/t/:templateid/:editpw?', // optional get params: previewid=:userid
     element: <RCreateTemplate />,
     loader: templateLoader,
+    action: templateAction,
   },
   {
     path: '/p/:userid/:editpw?',
