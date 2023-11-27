@@ -14,3 +14,8 @@ export function downloadAsFile(
   window.URL.revokeObjectURL(url);
   document.body.removeChild(a);
 }
+
+export function logError(error: any) {
+  const c = console;
+  c.error(error);
+}

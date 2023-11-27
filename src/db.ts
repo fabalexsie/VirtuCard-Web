@@ -70,7 +70,7 @@ export function getPerson(personId: string) {
 
 export function createNewDefaultTemplate(templateId: string, editpw: string) {
   const newTemplate: Template = {
-    name: 'New Template',
+    name: templateId,
     template: [
       '<h1>Hello <%= firstname %></h1>',
       '<% if (birthday) { %> birthday <%= birthday %><% } %>!',

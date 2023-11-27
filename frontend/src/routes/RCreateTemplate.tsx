@@ -12,16 +12,17 @@ import { useState } from 'react';
 import EjsEditor from '../components/EjsEditor';
 import { Button } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
+import { logError } from '../utils/util';
 
 export async function loader({
   request,
   params,
 }: LoaderFunctionArgs<any>): Promise<{
-  templateData: Template;
+  templateData: Template | null;
   personData: Person;
 }> {
   const searchParams = new URL(request.url).searchParams;
-  let personData = {
+  let personData: Person = {
     firstname: 'John',
     lastname: 'Doe',
     birthday: '2000-01-01',
@@ -39,45 +40,28 @@ export async function loader({
       secondaryColor: '#000000',
     },
   };
-
-  if (params.userid === undefined) {
-    return {
-      templateData: {
-        name: 'default',
-        template: [
-          '<h1>Hello <%= firstname %></h1>',
-          '<% if (birthday) { %> birthday <%= birthday %><% } %>!',
-          '<p>Some more text</p>',
-          '<div>',
-          '<a href="https://<%= website %>">Website (<%= website %>)</a>',
-          '<a href="<%= linkedin %>">LinkedIn</a>',
-          '</div>',
-        ].join('\n'),
-      },
-      personData: personData,
-    };
-  } else {
-    const templateData = await fetch(`/api/t/${params.templateid}`).then(
+  const templateData = await fetch(`/api/t/${params.templateid}`).then(
+    async (res) => {
+      if (200 <= res.status && res.status < 300) {
+        return res.json() as Promise<Template>;
+      } else {
+        logError(`No success status code (200)\n${await res.text()}`);
+        return null;
+      }
+    },
+  );
+  if (searchParams.has('previewid'))
+    personData = await fetch(`/api/p/${searchParams.get('previewid')}`).then(
       async (res) => {
         if (200 <= res.status && res.status < 300)
-          return res.json(); // TODO: load template
-        else
-          throw new Error(`No success status code (200)\n${await res.text()}`);
+          return res.json() as Promise<Person>;
+        else {
+          logError(`No success status code (200)\n${await res.text()}`);
+          return personData;
+        }
       },
     );
-    if (searchParams.has('previewid'))
-      personData = await fetch(`/api/p/${searchParams.get('previewid')}`).then(
-        async (res) => {
-          if (200 <= res.status && res.status < 300)
-            return res.json(); // TODO: load template
-          else
-            throw new Error(
-              `No success status code (200)\n${await res.text()}`,
-            );
-        },
-      );
-    return { templateData, personData };
-  }
+  return { templateData, personData };
 }
 
 export async function action({ params, request }: ActionFunctionArgs<any>) {
@@ -98,21 +82,24 @@ function RCreateTemplate() {
   const params = useParams();
   let submit = useSubmit();
   const { templateData, personData } = useLoaderData() as {
-    templateData: Template;
+    templateData: Template | null;
     personData: Person;
   };
 
-  const [template, setTemplate] = useState<string>(templateData.template);
+  const [templateStr, setTemplateStr] = useState<string>(
+    templateData ? templateData.template : '// ' + t('No template found'),
+  );
 
   const handleEditorChange = (value: string | undefined) => {
-    setTemplate(value || '');
+    setTemplateStr(value || '');
   };
 
   const handleSaveClick = () => {
     submit(
       {
-        template: template,
-      },
+        template: templateStr,
+        name: templateData?.name,
+      } as Template,
       { method: 'PUT', encType: 'application/json' },
     );
   };
@@ -124,7 +111,7 @@ function RCreateTemplate() {
           <div className="w-full h-full flex flex-col">
             <div className="mt-4 flex flex-row content-between">
               <h1 className="text-center text-white grow self-center">
-                {templateData.name}
+                {templateData?.name}
               </h1>
               {params.editpw && (
                 <Button
@@ -137,14 +124,17 @@ function RCreateTemplate() {
               )}
             </div>
             <div className="w-full flex-grow my-4">
-              <EjsEditor value={template} onChange={handleEditorChange} />
+              <EjsEditor value={templateStr} onChange={handleEditorChange} />
             </div>
           </div>
         </Card>
       </div>
       <div className="w-full md:w-2/5 h-full my-4 md:my-0 flex items-center justify-center">
         <Card className="bg-[dodgerblue] text-white">
-          <FrontMain personData={personData} templateStr={template}></FrontMain>
+          <FrontMain
+            personData={personData}
+            templateStr={templateStr}
+          ></FrontMain>
         </Card>
       </div>
     </div>
