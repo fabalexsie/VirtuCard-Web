@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import { Key } from '@react-types/shared';
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@nextui-org/react';
 import { useSubmit } from 'react-router-dom';
 import { Person } from '../utils/data';
+import { use } from 'i18next';
 
 function MyInput(props: InputProps) {
   return (
@@ -49,6 +50,7 @@ export function BackMain({
   const [selectedAccordionKeys, setSelectedAccordionKeys] = useState<Set<Key>>(
     new Set(['']),
   );
+  const [availableThemes, setAvailableThemes] = useState<string[]>(['default']);
 
   const [firstname, setFirstname] = useState(personData.firstname);
   const [lastname, setLastname] = useState(personData.lastname);
@@ -72,6 +74,15 @@ export function BackMain({
   const [themeAccentColor, setThemeAccentColor] = useState(
     personData.theme.accentColor,
   );
+
+  useEffect(() => {
+    fetch(`/api/t/`).then(async (res) => {
+      if (200 <= res.status && res.status < 300) {
+        setAvailableThemes(await res.json());
+      } else
+        throw new Error(`No success status code (200)\n${await res.text()}`);
+    });
+  }, []);
 
   const handleSave = (_: MouseEvent<HTMLButtonElement>) => {
     submit(
@@ -197,9 +208,11 @@ export function BackMain({
             className="my-4 w-auto mx-1"
             label={t('Layout Template')}
           >
-            <AutocompleteItem key="default" value="default" color="primary">
-              Default
-            </AutocompleteItem>
+            {availableThemes.map((theme) => (
+              <AutocompleteItem key={theme} value={theme} color="primary">
+                {theme}
+              </AutocompleteItem>
+            ))}
           </Autocomplete>
           <MyColorInput
             label={t('Primary color')}

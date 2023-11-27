@@ -1,6 +1,11 @@
 import express from 'express';
 import { randomUUID } from 'crypto';
-import { createNewDefaultTemplate, getTemplate, updateTemplate } from './db';
+import {
+  createNewDefaultTemplate,
+  getTemplate,
+  getTemplateNames,
+  updateTemplate,
+} from './db';
 import { humanId } from 'human-id';
 import { NewTemplateResponse } from '../frontend/src/utils/data';
 
@@ -32,4 +37,8 @@ templateRouter.put('/:templateid/:editpw', (req, res) => {
       }
     },
   );
+});
+
+templateRouter.get('/', (req, res) => {
+  res.send(getTemplateNames());
 });
