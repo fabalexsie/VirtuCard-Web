@@ -2,6 +2,7 @@ import express from 'express';
 import { randomUUID } from 'crypto';
 import { createNewDefaultTemplate, getTemplate, updateTemplate } from './db';
 import { humanId } from 'human-id';
+import { NewTemplateResponse } from '../frontend/src/utils/data';
 
 export const templateRouter = express.Router();
 
@@ -9,7 +10,10 @@ templateRouter.get('/new', (req, res) => {
   const newTemplateId = humanId();
   const password = randomUUID();
   createNewDefaultTemplate(newTemplateId, password);
-  res.send({ personId: newTemplateId, editpw: password });
+  res.send({
+    templateId: newTemplateId,
+    editpw: password,
+  } as NewTemplateResponse);
 });
 
 templateRouter.get('/:templateid', (req, res) => {

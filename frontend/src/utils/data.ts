@@ -21,3 +21,13 @@ export type Template = {
   name: string;
   template: string;
 };
+
+export type NewPersonResponse = {
+  personId: string;
+  editpw: string;
+};
+
+export type NewTemplateResponse = {
+  templateId: string;
+  editpw: string;
+};

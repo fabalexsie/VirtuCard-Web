@@ -1,6 +1,7 @@
 import express from 'express';
 import { randomUUID } from 'crypto';
 import { createEmptyPerson, getPerson, updatePerson } from './db';
+import { NewPersonResponse } from '../frontend/src/utils/data';
 
 export const personRouter = express.Router();
 
@@ -8,7 +9,7 @@ personRouter.get('/new', (req, res) => {
   const newPersonId = randomUUID();
   const password = randomUUID();
   createEmptyPerson(newPersonId, password);
-  res.send({ personId: newPersonId, editpw: password });
+  res.send({ personId: newPersonId, editpw: password } as NewPersonResponse);
 });
 
 personRouter.get('/:userid', (req, res) => {
