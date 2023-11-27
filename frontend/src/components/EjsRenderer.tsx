@@ -14,6 +14,7 @@ export function EjsRenderer({
   const [renderedHtmlStr, setRenderedHtmlStr] = useState<string | null>(null);
   const [renderError, setRenderError] = useState<string | null>(null);
 
+  // render html string
   useEffect(() => {
     try {
       let usedVarsObj = ejsprima.extractUsedVarsFromTemplate(template);
@@ -27,7 +28,11 @@ export function EjsRenderer({
       }));
       const missingVarObj = Object.assign({}, ...missingVarObjects);
 
-      let html = window.ejs.render(template, { ...missingVarObj, ...data });
+      let html = window.ejs.render(template, {
+        ...missingVarObj,
+        ...data,
+        JSON: JSON, // to make it possible for debugging to use JSON.stringify
+      });
 
       setRenderedHtmlStr(html);
       setRenderError(null);
@@ -38,6 +43,7 @@ export function EjsRenderer({
     }
   }, [template, data]);
 
+  // set clickListeners to html elements
   useEffect(() => {
     const currentOuterRef = outerRef.current;
 
