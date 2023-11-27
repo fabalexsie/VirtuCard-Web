@@ -31,8 +31,8 @@ export async function loader({
     phone: '+49 123 456789',
     address: 'Example Street 123, 12345 Example City',
     website: 'example.com',
-    linkedin: 'linkedin.com/in/johndoe',
-    github: 'github.com/johndoe',
+    linkedin: 'johndoe',
+    github: 'johndoe',
     notes: 'Some notes',
     theme: {
       selectedName: 'default',
