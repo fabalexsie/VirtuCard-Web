@@ -115,6 +115,8 @@ export default function EjsEditor({
       options={{
         wordWrap: 'on',
         wrappingIndent: 'indent',
+        tabSize: 2,
+        insertSpaces: true,
       }}
       onChange={onChange}
     />
