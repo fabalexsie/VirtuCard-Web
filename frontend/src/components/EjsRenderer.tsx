@@ -31,6 +31,7 @@ export function EjsRenderer({
       let html = window.ejs.render(template, {
         ...missingVarObj,
         ...data,
+        encodeURI: encodeURI,
         JSON: JSON, // to make it possible for debugging to use JSON.stringify
       });
 
