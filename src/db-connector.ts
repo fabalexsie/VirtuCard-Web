@@ -62,6 +62,15 @@ function folderToObject(folderName: string) {
         );
         return true;
       },
+      ownKeys: () => {
+        return files.map((f) => f.replace('.json', ''));
+      },
+      getOwnPropertyDescriptor: () => {
+        return {
+          configurable: true,
+          enumerable: true,
+        };
+      },
     },
   );
 }

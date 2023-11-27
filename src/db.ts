@@ -109,3 +109,7 @@ export function getTemplate(templateId: string) {
     return null;
   }
 }
+
+export function getTemplateNames() {
+  return Object.keys(DB.templates);
+}
