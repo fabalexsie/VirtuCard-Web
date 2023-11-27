@@ -1,24 +1,23 @@
 import express from 'express';
-//import { randomUUID } from 'crypto';
-import { getTemplate } from './db';
-//import { humanId } from 'human-id';
+import { randomUUID } from 'crypto';
+import { createNewDefaultTemplate, getTemplate, updateTemplate } from './db';
+import { humanId } from 'human-id';
 
 export const templateRouter = express.Router();
 
 templateRouter.get('/new', (req, res) => {
-  //const newTemplateId = humanId();
-  //const password = randomUUID();
-  //createNewDefaultTemplate(newTemplateId, password);
-  //res.send({ personId: newTemplateId, editpw: password });
-  res.sendStatus(404);
+  const newTemplateId = humanId();
+  const password = randomUUID();
+  createNewDefaultTemplate(newTemplateId, password);
+  res.send({ personId: newTemplateId, editpw: password });
 });
 
-templateRouter.get('/:userid', (req, res) => {
-  res.send(getTemplate(req.params.userid));
+templateRouter.get('/:templateid', (req, res) => {
+  res.send(getTemplate(req.params.templateid));
 });
 
-templateRouter.put('/:userid/:editpw', () => {
-  /*updatePerson(req.params.userid, req.params.editpw, req.body).then(
+templateRouter.put('/:templateid/:editpw', (req, res) => {
+  updateTemplate(req.params.templateid, req.params.editpw, req.body).then(
     (success) => {
       if (success) {
         res.send({ success, msg: 'Saved' });
@@ -28,5 +27,5 @@ templateRouter.put('/:userid/:editpw', () => {
           .send({ success, msg: 'For example wrong edit password' });
       }
     },
-  );*/
+  );
 });

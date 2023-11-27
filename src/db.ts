@@ -68,6 +68,39 @@ export function getPerson(personId: string) {
   }
 }
 
+export function createNewDefaultTemplate(templateId: string, editpw: string) {
+  const newTemplate: Template = {
+    name: 'New Template',
+    template: [
+      '<h1>Hello <%= firstname %></h1>',
+      '<% if (birthday) { %> birthday <%= birthday %><% } %>!',
+      '<p>Some more text</p>',
+      '<div>',
+      '  <a href="https://<%= website %>">Website (<%= website %>)</a>',
+      '  <a href="<%= linkedin %>">LinkedIn</a>',
+      '</div>',
+    ].join('\n'),
+  };
+  DB.templates[templateId] = { data: newTemplate, editpw };
+  return Promise.resolve(newTemplate);
+}
+
+export async function updateTemplate(
+  tempalteId: string,
+  editpw: string,
+  template: Template,
+): Promise<boolean> {
+  if (
+    template && // Template is not empty
+    (!DB.templates[tempalteId] || // template not existing -> will be created with pw
+      DB.templates[tempalteId].editpw === editpw) // template exists -> check that editpw is correct
+  ) {
+    DB.templates[tempalteId] = { data: template, editpw };
+    return Promise.resolve(true);
+  }
+  return Promise.resolve(false);
+}
+
 export function getTemplate(templateId: string) {
   const tempalteFound = DB.templates[templateId];
   if (tempalteFound) {
