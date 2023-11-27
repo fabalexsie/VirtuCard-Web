@@ -8,11 +8,12 @@ import {
 import Card from '../components/Card';
 import { Person, Template } from '../utils/data';
 import FrontMain from '../components/FrontMain';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import EjsEditor from '../components/EjsEditor';
 import { Button } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { logError } from '../utils/util';
+import { toast } from 'react-toastify';
 
 export async function loader({
   request,
@@ -71,6 +72,11 @@ export async function action({ params, request }: ActionFunctionArgs<any>) {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: jsonString,
+    }).then(async (res) => {
+      if (200 <= res.status && res.status < 300)
+        toast.success('Saved', { autoClose: 500, hideProgressBar: true });
+      else
+        toast.error('Error saving', { autoClose: 500, hideProgressBar: true });
     });
     return null;
   }
@@ -94,7 +100,7 @@ function RCreateTemplate() {
     setTemplateStr(value || '');
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = useCallback(() => {
     submit(
       {
         template: templateStr,
@@ -102,7 +108,21 @@ function RCreateTemplate() {
       } as Template,
       { method: 'PUT', encType: 'application/json' },
     );
-  };
+  }, [submit, templateStr, templateData?.name]);
+
+  useEffect(() => {
+    const ctrlS = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        handleSaveClick();
+      }
+    };
+    document.addEventListener('keydown', ctrlS);
+
+    return () => {
+      document.removeEventListener('keydown', ctrlS);
+    };
+  }, [handleSaveClick]);
 
   return (
     <div className="w-screen md:h-screen flex flex-row flex-wrap md:flex-nowrap">
