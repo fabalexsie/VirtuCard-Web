@@ -9,7 +9,11 @@ module.exports = {
   theme: {
     extend: {},
   },
-  safelist: [],
+  safelist: [
+    {
+      pattern: /[m/p].*-[0-9]+/, // for margin and padding availability in ejs template
+    },
+  ],
   darkMode: 'class',
   plugins: [
     nextui({
