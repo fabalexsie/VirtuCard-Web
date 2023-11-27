@@ -36,9 +36,9 @@ export async function loader({
     notes: 'Some notes',
     theme: {
       selectedName: 'default',
-      accentColor: '#000000',
-      primaryColor: '#ffffff',
-      secondaryColor: '#000000',
+      primaryColor: '#80ffdb',
+      secondaryColor: '#5390d9',
+      accentColor: '#7400B8',
     },
   };
   const templateData = await fetch(`/api/t/${params.templateid}`).then(

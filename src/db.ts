@@ -54,17 +54,7 @@ export function getPerson(personId: string) {
   if (personFound) {
     return personFound.data;
   } else {
-    // TODO Error handling
-    return {
-      firstname: 'Test',
-      lastname: 'User',
-      theme: {
-        selectedName: 'default',
-        primaryColor: '#80ffdb',
-        secondaryColor: '#5390d9',
-        accentColor: '#7400B8',
-      },
-    };
+    return null;
   }
 }
 
@@ -86,25 +76,25 @@ export function createNewDefaultTemplate(templateId: string, editpw: string) {
 }
 
 export async function updateTemplate(
-  tempalteId: string,
+  templateId: string,
   editpw: string,
   template: Template,
 ): Promise<boolean> {
   if (
     template && // Template is not empty
-    (!DB.templates[tempalteId] || // template not existing -> will be created with pw
-      DB.templates[tempalteId].editpw === editpw) // template exists -> check that editpw is correct
+    (!DB.templates[templateId] || // template not existing -> will be created with pw
+      DB.templates[templateId].editpw === editpw) // template exists -> check that editpw is correct
   ) {
-    DB.templates[tempalteId] = { data: template, editpw };
+    DB.templates[templateId] = { data: template, editpw };
     return Promise.resolve(true);
   }
   return Promise.resolve(false);
 }
 
 export function getTemplate(templateId: string) {
-  const tempalteFound = DB.templates[templateId];
-  if (tempalteFound) {
-    return tempalteFound.data;
+  const templateFound = DB.templates[templateId];
+  if (templateFound) {
+    return templateFound.data;
   } else {
     return null;
   }
