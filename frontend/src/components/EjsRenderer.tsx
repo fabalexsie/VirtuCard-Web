@@ -39,10 +39,12 @@ export function EjsRenderer({
   }, [template, data]);
 
   useEffect(() => {
+    const currentOuterRef = outerRef.current;
+
     if (renderedHtmlStr && outerRef) {
       Object.entries(data.clickListener).forEach(
         ([clazzName, listener]: [clazzName: string, listener: () => void]) => {
-          const elements = outerRef.current?.getElementsByClassName(clazzName);
+          const elements = currentOuterRef?.getElementsByClassName(clazzName);
           if (elements != null) {
             for (let i = 0; i < elements.length; i++) {
               elements.item(i)?.addEventListener('click', listener);
@@ -52,6 +54,21 @@ export function EjsRenderer({
         },
       );
     }
+
+    // to prevent adding multiple event listeners
+    return () => {
+      Object.entries(data.clickListener).forEach(
+        ([clazzName, listener]: [clazzName: string, listener: () => void]) => {
+          const elements = currentOuterRef?.getElementsByClassName(clazzName);
+          if (elements != null) {
+            for (let i = 0; i < elements.length; i++) {
+              elements.item(i)?.removeEventListener('click', listener);
+              elements.item(i)?.classList.remove('cursor-pointer');
+            }
+          }
+        },
+      );
+    };
   }, [renderedHtmlStr, outerRef, data.clickListener]);
 
   if (renderedHtmlStr && !renderError) {
