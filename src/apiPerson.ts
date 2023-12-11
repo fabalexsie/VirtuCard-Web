@@ -5,12 +5,14 @@ import { NewPersonResponse } from '../frontend/src/utils/data';
 
 export const personRouter = express.Router();
 
-personRouter.get('/new', (req, res) => {
-  const newPersonId = randomUUID();
-  const password = randomUUID();
-  createEmptyPerson(newPersonId, password);
-  res.send({ personId: newPersonId, editpw: password } as NewPersonResponse);
-});
+if (JSON.parse(process.env.NEW_PERSONS_ALLOWED ?? 'false')) {
+  personRouter.get('/new?name=:personid', (req, res) => {
+    const newPersonId = req.query.personId as string;
+    const password = randomUUID();
+    createEmptyPerson(newPersonId, password);
+    res.send({ personId: newPersonId, editpw: password } as NewPersonResponse);
+  });
+}
 
 personRouter.get('/:userid', (req, res) => {
   res.send(getPerson(req.params.userid));

@@ -13,6 +13,7 @@ import {
   loader as templateLoader,
   action as templateAction,
 } from './routes/RCreateTemplate';
+import { loader as homeLoader } from './routes/RHome';
 import RCreateTemplate from './routes/RCreateTemplate';
 import RHome from './routes/RHome';
 
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <RHome />,
     errorElement: <RHome error404={true} />,
+    loader: homeLoader,
   },
   {
     path: '/t/:templateid/:editpw?', // optional get params: previewid=:userid

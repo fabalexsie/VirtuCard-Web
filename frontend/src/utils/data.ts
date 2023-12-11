@@ -31,3 +31,8 @@ export type NewTemplateResponse = {
   templateId: string;
   editpw: string;
 };
+
+export type Config = {
+  newPersonsAllowed: boolean;
+  newTemplatesAllowed: boolean;
+};

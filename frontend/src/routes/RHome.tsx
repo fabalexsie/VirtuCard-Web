@@ -2,12 +2,30 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@nextui-org/react';
 import { toast } from 'react-toastify';
-import { useRouteError } from 'react-router-dom';
-import { NewPersonResponse, NewTemplateResponse } from '../utils/data';
+import {
+  LoaderFunctionArgs,
+  useLoaderData,
+  useRouteError,
+} from 'react-router-dom';
+import { Config, NewPersonResponse, NewTemplateResponse } from '../utils/data';
+
+export async function loader({
+  request,
+  params,
+}: LoaderFunctionArgs<any>): Promise<{
+  config: Config;
+}> {
+  const config = await fetch(`/api/config`).then(async (res) => {
+    if (200 <= res.status && res.status < 300) return res.json();
+    else throw new Error(`No success status code (200)\n${await res.text()}`);
+  });
+  return { config };
+}
 
 export default function RHome({ error404 = false }: { error404?: boolean }) {
   const { t } = useTranslation();
   const errorExplanation = useRouteError();
+  const { config } = useLoaderData() as { config: Config };
 
   const handleCreateNewPerson = async () => {
     const newCardResp: NewPersonResponse = await fetch(`/api/p/new`).then(
@@ -38,8 +56,10 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
     }
   }, [error404]);
   useEffect(() => {
-    const c = console; // fool the console-log detection script
-    c.error(errorExplanation);
+    if (errorExplanation) {
+      const c = console; // fool the console-log detection script
+      c.error(errorExplanation);
+    }
   }, [errorExplanation]);
 
   return (
@@ -49,20 +69,24 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
           <h1 className="text-6xl font-semibold">
             {t('Welcome to VirtuCard!')}
           </h1>
-          <Link
-            className="text-3xl mt-4"
-            onPress={handleCreateNewPerson}
-            href="#"
-          >
-            {t('Create your own Card')}
-          </Link>
-          <Link
-            className="text-xl mt-4"
-            onPress={handleCreateNewTemplate}
-            href="#"
-          >
-            {t('or create your own template')}
-          </Link>
+          {config?.newPersonsAllowed && (
+            <Link
+              className="text-3xl mt-4"
+              onPress={handleCreateNewPerson}
+              href="#"
+            >
+              {t('Create your own Card')}
+            </Link>
+          )}
+          {config?.newTemplatesAllowed && (
+            <Link
+              className="text-3xl mt-4"
+              onPress={handleCreateNewTemplate}
+              href="#"
+            >
+              {t('Create your own Template')}
+            </Link>
+          )}
         </section>
         <section className="w-full flex flex-col items-center justify-center h-screen"></section>
       </div>

@@ -11,15 +11,17 @@ import { NewTemplateResponse } from '../frontend/src/utils/data';
 
 export const templateRouter = express.Router();
 
-templateRouter.get('/new', (req, res) => {
-  const newTemplateId = humanId({ separator: '-', capitalize: false });
-  const password = randomUUID();
-  createNewDefaultTemplate(newTemplateId, password);
-  res.send({
-    templateId: newTemplateId,
-    editpw: password,
-  } as NewTemplateResponse);
-});
+if (JSON.parse(process.env.NEW_TEMPLATES_ALLOWED ?? 'false')) {
+  templateRouter.get('/new', (req, res) => {
+    const newTemplateId = humanId({ separator: '-', capitalize: false });
+    const password = randomUUID();
+    createNewDefaultTemplate(newTemplateId, password);
+    res.send({
+      templateId: newTemplateId,
+      editpw: password,
+    } as NewTemplateResponse);
+  });
+}
 
 templateRouter.get('/:templateid', (req, res) => {
   res.send(getTemplate(req.params.templateid));
