@@ -13,13 +13,13 @@ export function CardWrapper({
         'flex',
         'relative',
         '[perspective:1000px]',
-        'w-[calc(100vw-40px)]',
+        'w-[calc(100%-40px)]',
+        'h-[calc(100%-40px)]',
         {
           'max-w-md': slim,
           'max-w-2xl': !slim,
           '2xl:max-w-4xl': !slim,
         },
-        'h-[calc(100vh-40px)]',
       )}
     >
       {children}
