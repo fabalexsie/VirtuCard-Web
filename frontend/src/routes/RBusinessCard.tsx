@@ -10,7 +10,7 @@ import FlippableCard, { FlipRefType } from '../components/FlippableCard';
 import { BackMain } from '../components/BackMain';
 import FrontMain from '../components/FrontMain';
 
-declare var VirtuCardApp: { getBottomPad: () => number };
+declare var VirtuCardApp: { getBottomPad: (webpageHeight: number) => number };
 
 export async function loader({ params }: LoaderFunctionArgs<any>) {
   const personData = await fetch(`/api/p/${params.userid}`).then(
@@ -58,7 +58,7 @@ function RBusinessCard() {
     VirtuCardApp &&
     VirtuCardApp.getBottomPad
   ) {
-    bottomPad = VirtuCardApp.getBottomPad() || 0;
+    bottomPad = VirtuCardApp.getBottomPad(window.screen.availHeight) || 0;
   }
 
   return (
