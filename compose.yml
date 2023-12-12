@@ -7,7 +7,9 @@ services:
       dockerfile: Dockerfile
     environment:
       - PORT=8090
+      - NEW_TEMPLATES_ALLOWED=false
+      - NEW_PERSONS_ALLOWED=true
     ports:
       - 8080:8090
     # volumes:
-    #   - ./data:/app/data
+    #   - ./db:/app/db
