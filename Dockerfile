@@ -3,12 +3,13 @@ FROM node:18.14.2 as frontend-builder
 # FRONTEND
 # install npm packages
 WORKDIR /app/frontend
-COPY frontend/package.json frontend/package-lock.json frontend/tsconfig.json ./
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
 
-# production build
+# production build of react
 COPY frontend/public ./public
 COPY frontend/src ./src
+COPY frontend/tsconfig.json frontend/tailwind.config.js ./
 RUN npm run build
 
 
