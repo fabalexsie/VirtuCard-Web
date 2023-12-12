@@ -126,7 +126,7 @@ function RCreateTemplate() {
   }, [handleSaveClick]);
 
   return (
-    <div className="w-screen md:h-screen flex flex-row flex-wrap md:flex-nowrap">
+    <div className="w-screen h-screen flex flex-row flex-wrap md:flex-nowrap">
       {params.editpw && (
         <div className="w-full md:w-3/5 h-full my-4 md:my-0 flex items-center justify-center">
           <Card className="bg-[dodgerblue]" slim={false}>
