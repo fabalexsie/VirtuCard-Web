@@ -111,7 +111,7 @@ export function BackMain({
   };
 
   return (
-    <div className="bg-white w-full h-full text-center p-4 overflow-y-auto">
+    <div className="bg-white w-full h-full text-center p-4 overflow-y-auto touch-pan-y">
       <h1>{t('Edit Profile Information')}</h1>
 
       {/*<MyInput label={t('Title')} />*/}

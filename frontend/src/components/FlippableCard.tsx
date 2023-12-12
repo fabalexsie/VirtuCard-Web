@@ -63,7 +63,7 @@ const FlippableCard = forwardRef(
         onPanEnd={handlePanEnd}
         ref={divPan}
       >
-        <div className="w-full h-full flex items-center justify-center touch-pan-y select-none">
+        <div className="w-full h-full flex items-center justify-center select-none">
           <CardWrapper>
             <motion.div
               layout
