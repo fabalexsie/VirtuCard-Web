@@ -16,6 +16,7 @@ import {
 import { loader as homeLoader } from './routes/RHome';
 import RCreateTemplate from './routes/RCreateTemplate';
 import RHome from './routes/RHome';
+import RError from './routes/RError';
 
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -24,22 +25,26 @@ import './i18n';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <RHome />,
-    errorElement: <RHome error404={true} />,
-    loader: homeLoader,
-  },
-  {
-    path: '/t/:templateid/:editpw?', // optional get params: previewid=:userid
-    element: <RCreateTemplate />,
-    loader: templateLoader,
-    action: templateAction,
-  },
-  {
-    path: '/p/:userid/:editpw?',
-    element: <RBusinessCard />,
-    loader: personLoader,
-    action: personAction,
+    errorElement: <RError />,
+    children: [
+      {
+        path: '/',
+        element: <RHome />,
+        loader: homeLoader,
+      },
+      {
+        path: '/t/:templateid/:editpw?', // optional get params: previewid=:userid
+        element: <RCreateTemplate />,
+        loader: templateLoader,
+        action: templateAction,
+      },
+      {
+        path: '/p/:userid/:editpw?',
+        element: <RBusinessCard />,
+        loader: personLoader,
+        action: personAction,
+      },
+    ],
   },
 ]);
 

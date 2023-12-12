@@ -32,7 +32,7 @@ export async function loader({
   return { config };
 }
 
-export default function RHome({ error404 = false }: { error404?: boolean }) {
+export default function RHome() {
   const { t } = useTranslation();
   const errorExplanation = useRouteError();
   const { config } = useLoaderData() as { config: Config };
@@ -51,12 +51,6 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
   };
 
   useEffect(() => {
-    if (error404) {
-      const toastId = toast.warn('The requested page was not found');
-      return () => toast.dismiss(toastId);
-    }
-  }, [error404]);
-  useEffect(() => {
     if (errorExplanation) {
       const c = console; // fool the console-log detection script
       c.error(errorExplanation);
@@ -65,10 +59,7 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
 
   return (
     <>
-      <CreatePersonModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      ></CreatePersonModal>
+      <CreatePersonModal isOpen={isOpen} onOpenChange={onOpenChange} />
       <div className="w-screen h-screen overflow-y-auto">
         <section className="w-full h-screen flex flex-col items-center justify-center">
           <h1 className="text-6xl font-semibold">
