@@ -2,6 +2,7 @@ import React, { forwardRef, useRef, useState } from 'react';
 import './FlippableCard.scss';
 import { motion } from 'framer-motion';
 import { CardWrapper } from './Card';
+import clsx from 'clsx';
 
 export type FlipRefType = {
   openFrontPage: () => void;
@@ -73,8 +74,20 @@ const FlippableCard = forwardRef(
                   : `${180 * Math.max(-1.1, Math.min(rotAnim, 0.1))}deg`,
               }}
             >
-              <div className="front">{front}</div>
-              <div className="back">{back}</div>
+              <div
+                className={clsx('front', {
+                  'pointer-events-none': rotAnim < 0,
+                })}
+              >
+                {front}
+              </div>
+              <div
+                className={clsx('back', {
+                  'pointer-events-none': rotAnim > -1,
+                })}
+              >
+                {back}
+              </div>
             </motion.div>
           </CardWrapper>
         </div>
