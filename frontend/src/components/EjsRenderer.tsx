@@ -35,6 +35,7 @@ export function EjsRenderer({
         JSON: JSON, // to make it possible for debugging to use JSON.stringify
       });
 
+      if (html === '') html = '<p></p>'; // to prevent empty html string which is falsey
       setRenderedHtmlStr(html);
       setRenderError(null);
     } catch (err) {
