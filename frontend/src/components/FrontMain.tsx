@@ -33,7 +33,7 @@ export default function FrontMain({
   }, [templateStr]);
 
   return (
-    <div className="w-full h-full text-center overflow-y-auto">
+    <div className="w-full h-full text-center overflow-y-auto select-none">
       <EjsRenderer
         template={template}
         data={{
