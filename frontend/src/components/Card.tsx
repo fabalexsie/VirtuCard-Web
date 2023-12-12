@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 export function CardWrapper({
   children,
   slim = true,
@@ -7,9 +9,18 @@ export function CardWrapper({
 }) {
   return (
     <div
-      className={`flex relative [perspective:1000px] w-[calc(100vw-40px)] ${
-        slim ? 'max-w-md' : 'max-w-2xl 2xl:max-w-4xl'
-      } h-[calc(100vh-40px)]`}
+      className={clsx(
+        'flex',
+        'relative',
+        '[perspective:1000px]',
+        'w-[calc(100vw-40px)]',
+        {
+          'max-w-md': slim,
+          'max-w-2xl': !slim,
+          '2xl:max-w-4xl': !slim,
+        },
+        'h-[calc(100vh-40px)]',
+      )}
     >
       {children}
     </div>
