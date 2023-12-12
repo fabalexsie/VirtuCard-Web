@@ -14,6 +14,7 @@ import { Button } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { logError } from '../utils/util';
 import { toast } from 'react-toastify';
+import clsx from 'clsx';
 
 export async function loader({
   request,
@@ -126,14 +127,14 @@ function RCreateTemplate() {
 
   return (
     <div className="w-screen md:h-screen flex flex-row flex-wrap md:flex-nowrap">
-      <div className="w-full md:w-3/5 h-full my-4 md:my-0 flex items-center justify-center">
-        <Card className="bg-[dodgerblue]" slim={false}>
-          <div className="w-full h-full flex flex-col">
-            <div className="mt-4 flex flex-row content-between">
-              <h1 className="text-center text-white grow self-center">
-                {templateData?.name}
-              </h1>
-              {params.editpw && (
+      {params.editpw && (
+        <div className="w-full md:w-3/5 h-full my-4 md:my-0 flex items-center justify-center">
+          <Card className="bg-[dodgerblue]" slim={false}>
+            <div className="w-full h-full flex flex-col">
+              <div className="mt-4 flex flex-row content-between">
+                <h1 className="text-center text-white grow self-center">
+                  {templateData?.name}
+                </h1>
                 <Button
                   className="me-4"
                   color="primary"
@@ -141,15 +142,20 @@ function RCreateTemplate() {
                 >
                   {t('Save')}
                 </Button>
-              )}
+              </div>
+              <div className="w-full flex-grow my-4">
+                <EjsEditor value={templateStr} onChange={handleEditorChange} />
+              </div>
             </div>
-            <div className="w-full flex-grow my-4">
-              <EjsEditor value={templateStr} onChange={handleEditorChange} />
-            </div>
-          </div>
-        </Card>
-      </div>
-      <div className="w-full md:w-2/5 h-full my-4 md:my-0 flex items-center justify-center">
+          </Card>
+        </div>
+      )}
+      <div
+        className={clsx('flex', 'items-center', 'justify-center', {
+          'w-full md:w-2/5 h-full my-4 md:my-0': params.editpw,
+          'w-full h-full': !params.editpw,
+        })}
+      >
         <Card className="bg-[dodgerblue] text-white">
           <FrontMain
             personData={personData}
