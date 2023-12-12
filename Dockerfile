@@ -23,6 +23,8 @@ RUN npm install ts-node
 
 # copy production build from frontend-builder
 COPY --from=frontend-builder /app/frontend/build ./frontend/build
+# we have shared data types between frontend and backend
+COPY --from=frontend-builder /app/frontend/src/utils/data.ts ./frontend/src/utils/data.ts
 
 # copy server files 
 COPY src ./src
