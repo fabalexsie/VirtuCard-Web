@@ -21,11 +21,19 @@ if (JSON.parse(process.env.NEW_PERSONS_ALLOWED ?? 'false')) {
     res.send({ username });
   });
 
-  personRouter.get('/new?name=:personid', (req, res) => {
-    const newPersonId = req.query.personId as string;
-    const password = randomUUID();
-    createEmptyPerson(newPersonId, password);
-    res.send({ personId: newPersonId, editpw: password } as NewPersonResponse);
+  personRouter.get('/new', (req, res) => {
+    const newPersonId = req.query.name as string;
+    if (getPerson(newPersonId)) {
+      res.status(400).send({ msg: 'Person already exists' });
+      return;
+    } else {
+      const password = randomUUID();
+      createEmptyPerson(newPersonId, password);
+      res.send({
+        personId: newPersonId,
+        editpw: password,
+      } as NewPersonResponse);
+    }
   });
 }
 

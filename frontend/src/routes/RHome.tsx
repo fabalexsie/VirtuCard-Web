@@ -112,8 +112,7 @@ function CreatePersonModal({
         if (200 <= res.status && res.status < 300) {
           setGeneratedUsername((await res.json()).username);
         } else {
-          toast.error('Error generating username');
-          throw new Error(`No success status code (200)\n${await res.text()}`);
+          toast.warn('Error generating username');
         }
       });
     }
@@ -123,15 +122,15 @@ function CreatePersonModal({
   }, [isOpen]);
 
   const handleCreateNewPerson = async () => {
-    const newCardResp: NewPersonResponse = await fetch(
-      `/api/p/new?name=${username || generatedUsername}`,
-    ).then(async (res) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set('name', username || generatedUsername);
+    await fetch(`/api/p/new?${searchParams.toString()}`).then(async (res) => {
       if (200 <= res.status && res.status < 300) {
-        window.location.href = `/p/${newCardResp.personId}/${newCardResp.editpw}`;
-        return res.json();
+        return res.json().then((newPersonResp: NewPersonResponse) => {
+          window.location.href = `/p/${newPersonResp.personId}/${newPersonResp.editpw}`;
+        });
       } else {
-        toast.error('Error creating new card');
-        throw new Error(`No success status code (200)\n${await res.text()}`);
+        toast.error(`Error creating new card: ${(await res.json()).msg}`);
       }
     });
   };
