@@ -1,6 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@nextui-org/react';
+import {
+  Button,
+  Input,
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from '@nextui-org/react';
 import { toast } from 'react-toastify';
 import {
   LoaderFunctionArgs,
@@ -27,16 +37,7 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
   const errorExplanation = useRouteError();
   const { config } = useLoaderData() as { config: Config };
 
-  const handleCreateNewPerson = async () => {
-    const newCardResp: NewPersonResponse = await fetch(`/api/p/new`).then(
-      async (res) => {
-        if (200 <= res.status && res.status < 300) return res.json();
-        else
-          throw new Error(`No success status code (200)\n${await res.text()}`);
-      },
-    );
-    window.location.href = `/p/${newCardResp.personId}/${newCardResp.editpw}`;
-  };
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleCreateNewTemplate = async () => {
     const newTemplateResp: NewTemplateResponse = await fetch(`/api/t/new`).then(
@@ -64,17 +65,17 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
 
   return (
     <>
+      <CreatePersonModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      ></CreatePersonModal>
       <div className="w-screen h-screen overflow-y-auto">
         <section className="w-full h-screen flex flex-col items-center justify-center">
           <h1 className="text-6xl font-semibold">
             {t('Welcome to VirtuCard!')}
           </h1>
           {config?.newPersonsAllowed && (
-            <Link
-              className="text-3xl mt-4"
-              onPress={handleCreateNewPerson}
-              href="#"
-            >
+            <Link className="text-3xl mt-4" onPress={onOpen} href="#">
               {t('Create your own Card')}
             </Link>
           )}
@@ -91,5 +92,77 @@ export default function RHome({ error404 = false }: { error404?: boolean }) {
         <section className="w-full flex flex-col items-center justify-center h-screen"></section>
       </div>
     </>
+  );
+}
+
+function CreatePersonModal({
+  isOpen,
+  onOpenChange,
+}: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  const [username, setUsername] = useState('');
+  const [generatedUsername, setGeneratedUsername] = useState('');
+
+  useEffect(() => {
+    async function fetchData() {
+      await fetch(`/api/p/suggestUsername`).then(async (res) => {
+        if (200 <= res.status && res.status < 300) {
+          setGeneratedUsername((await res.json()).username);
+        } else {
+          toast.error('Error generating username');
+          throw new Error(`No success status code (200)\n${await res.text()}`);
+        }
+      });
+    }
+    if (isOpen) {
+      fetchData();
+    }
+  }, [isOpen]);
+
+  const handleCreateNewPerson = async () => {
+    const newCardResp: NewPersonResponse = await fetch(
+      `/api/p/new?name=${username || generatedUsername}`,
+    ).then(async (res) => {
+      if (200 <= res.status && res.status < 300) {
+        window.location.href = `/p/${newCardResp.personId}/${newCardResp.editpw}`;
+        return res.json();
+      } else {
+        toast.error('Error creating new card');
+        throw new Error(`No success status code (200)\n${await res.text()}`);
+      }
+    });
+  };
+
+  return (
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop="blur">
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader>{t('Choose your username')}</ModalHeader>
+            <ModalBody>
+              <Input
+                placeholder={generatedUsername}
+                value={username}
+                onValueChange={setUsername}
+                label={t('Username')}
+                color="primary"
+                variant="flat"
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" variant="flat" onPress={onClose}>
+                {t('Cancel')}
+              </Button>
+              <Button color="primary" onClick={handleCreateNewPerson}>
+                {t('Create')}
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 }

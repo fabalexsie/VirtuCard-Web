@@ -13,7 +13,6 @@ import {
 } from '@nextui-org/react';
 import { useSubmit } from 'react-router-dom';
 import { Person } from '../utils/data';
-import { use } from 'i18next';
 
 function MyInput(props: InputProps) {
   return (
