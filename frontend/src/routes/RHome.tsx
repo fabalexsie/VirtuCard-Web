@@ -62,17 +62,21 @@ export default function RHome() {
       <CreatePersonModal isOpen={isOpen} onOpenChange={onOpenChange} />
       <div className="w-screen h-screen overflow-y-auto">
         <section className="w-full h-screen flex flex-col items-center justify-center">
-          <h1 className="text-6xl font-semibold">
+          <h1 className="text-6xl font-semibold px-4 text-center">
             {t('Welcome to VirtuCard!')}
           </h1>
           {config?.newPersonsAllowed && (
-            <Link className="text-3xl mt-4" onPress={onOpen} href="#">
+            <Link
+              className="text-3xl mt-4 px-4 text-center"
+              onPress={onOpen}
+              href="#"
+            >
               {t('Create your own Card')}
             </Link>
           )}
           {config?.newTemplatesAllowed && (
             <Link
-              className="text-3xl mt-4"
+              className="text-3xl mt-4 px-4 text-center"
               onPress={handleCreateNewTemplate}
               href="#"
             >
