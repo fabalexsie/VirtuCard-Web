@@ -7,7 +7,12 @@ const port = process.env.PORT;
 
 const app = express();
 
-app.use(express.static('frontend/build'));
+app.use(
+  express.static('frontend/build', {
+    cacheControl: true,
+    maxAge: 1000 * 60 * 60 * 24 * 10, // cache 10 days
+  }),
+);
 
 app.use('/api', apiRouter);
 
