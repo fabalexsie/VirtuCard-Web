@@ -38,28 +38,53 @@ function MyColorInput(props: InputProps) {
 }
 
 function MyFileInput({
+  filename,
+  filedata,
   setFilename,
   setFileData,
 }: {
+  filename?: string;
+  filedata?: string;
   setFilename: (filename: string) => void;
   setFileData: (fileData: string) => void;
 }) {
+  const removePhoto = () => {
+    setFilename('');
+    setFileData('');
+  };
   return (
-    <input
-      type="file"
-      onChange={(ev) => {
-        const file = ev.target.files?.item(0);
-        if (file) {
-          setFilename(file.name);
-          const reader = new FileReader();
-          reader.onload = () => {
-            setFileData(reader.result as string);
-          };
-          reader.readAsDataURL(file);
-        }
-      }}
-      className="block w-full space-x-4 p-2 border-2 hover:border-gray-400 rounded-xl transition-colors duration-300 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer"
-    />
+    <div className="flex w-full items-center justify-between space-x-4 p-2 border-2 hover:border-gray-400 rounded-xl transition-colors duration-300">
+      {filedata && (
+        <div className="flex-shrink-0 w-10 h-10 relative group">
+          <img
+            className="w-full h-full rounded-full object-cover"
+            src={filedata}
+            alt={filename}
+          />
+          <div
+            className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-50 rounded-full invisible group-hover:visible flex flex-row justify-center items-center cursor-pointer"
+            onClick={removePhoto}
+          >
+            <img className="w-2/3" src="/delete.svg" alt="delete" />
+          </div>
+        </div>
+      )}
+      <input
+        type="file"
+        onChange={(ev) => {
+          const file = ev.target.files?.item(0);
+          if (file) {
+            setFilename(file.name);
+            const reader = new FileReader();
+            reader.onload = () => {
+              setFileData(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+          }
+        }}
+        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer"
+      />
+    </div>
   );
 }
 
@@ -180,6 +205,8 @@ export function BackMain({
             label={t('Position')}
           />
           <MyFileInput
+            filename={portraitFilename}
+            filedata={portraitData}
             setFilename={setPortraitFilename}
             setFileData={setPortraitData}
           />

@@ -9,6 +9,11 @@ module.exports = {
   theme: {
     extend: {},
   },
+  variants: {
+    extend: {
+      visibility: ['group-hover'],
+    },
+  },
   safelist: [
     {
       pattern: /^[m/p].{0,2}-(?:auto|p.{0,1}|[0-9.]+)$/, // for margin and padding availability in ejs template
