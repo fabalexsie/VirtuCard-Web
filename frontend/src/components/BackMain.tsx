@@ -53,6 +53,7 @@ export function BackMain({
 
   const [firstname, setFirstname] = useState(personData.firstname);
   const [lastname, setLastname] = useState(personData.lastname);
+  const [position, setPosition] = useState(personData.position);
   const [email, setEmail] = useState(personData.email);
   const [phone, setPhone] = useState(personData.phone);
   const [address, setAddress] = useState(personData.address);
@@ -88,6 +89,7 @@ export function BackMain({
       {
         firstname: firstname,
         lastname: lastname,
+        position: position || '',
         email: email || '',
         phone: phone || '',
         address: address || '',
@@ -139,6 +141,13 @@ export function BackMain({
           )
         }
       >
+        <AccordionItem title={t('About me')} key={'about-me'}>
+          <MyInput
+            value={position}
+            onValueChange={setPosition}
+            label={t('Position')}
+          />
+        </AccordionItem>
         <AccordionItem title={t('Contact')} key={'contact'}>
           <MyInput value={email} onValueChange={setEmail} label={t('Email')} />
           <MyInput value={phone} onValueChange={setPhone} label={t('Phone')} />

@@ -1,6 +1,7 @@
 export type Person = {
   firstname: string;
   lastname: string;
+  position?: string;
   email?: string;
   phone?: string;
   address?: string;
