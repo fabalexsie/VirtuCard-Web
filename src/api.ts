@@ -4,7 +4,7 @@ import { templateRouter } from './apiTemplate';
 
 export const apiRouter = express.Router();
 
-apiRouter.use(express.json());
+apiRouter.use(express.json({ limit: '10mb' }));
 
 apiRouter.use('/p', personRouter);
 apiRouter.use('/t', templateRouter);
