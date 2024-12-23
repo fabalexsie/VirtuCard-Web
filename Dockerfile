@@ -1,4 +1,4 @@
-FROM node:18.14.2 as frontend-builder
+FROM node:18.14.2 AS frontend-builder
 
 # FRONTEND
 # install npm packages
@@ -13,7 +13,7 @@ COPY frontend/tsconfig.json frontend/tailwind.config.js ./
 RUN npm run build
 
 
-FROM node:18.14.2 as runner
+FROM node:18.14.2 AS runner
 
 ## BACKEND
 # install npm packages
