@@ -2,6 +2,8 @@ export type Person = {
   firstname: string;
   lastname: string;
   position?: string;
+  portraitFilename?: string;
+  portraitData?: string;
   email?: string;
   phone?: string;
   address?: string;

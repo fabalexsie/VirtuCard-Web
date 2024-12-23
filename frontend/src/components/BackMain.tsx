@@ -37,6 +37,32 @@ function MyColorInput(props: InputProps) {
   );
 }
 
+function MyFileInput({
+  setFilename,
+  setFileData,
+}: {
+  setFilename: (filename: string) => void;
+  setFileData: (fileData: string) => void;
+}) {
+  return (
+    <input
+      type="file"
+      onChange={(ev) => {
+        const file = ev.target.files?.item(0);
+        if (file) {
+          setFilename(file.name);
+          const reader = new FileReader();
+          reader.onload = () => {
+            setFileData(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        }
+      }}
+      className="block w-full space-x-4 p-2 border-2 hover:border-gray-400 rounded-xl transition-colors duration-300 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer"
+    />
+  );
+}
+
 export function BackMain({
   openFrontPage,
   personData,
@@ -54,6 +80,10 @@ export function BackMain({
   const [firstname, setFirstname] = useState(personData.firstname);
   const [lastname, setLastname] = useState(personData.lastname);
   const [position, setPosition] = useState(personData.position);
+  const [portraitFilename, setPortraitFilename] = useState(
+    personData.portraitFilename,
+  );
+  const [portraitData, setPortraitData] = useState(personData.portraitData);
   const [email, setEmail] = useState(personData.email);
   const [phone, setPhone] = useState(personData.phone);
   const [address, setAddress] = useState(personData.address);
@@ -90,6 +120,8 @@ export function BackMain({
         firstname: firstname,
         lastname: lastname,
         position: position || '',
+        portraitFilename: portraitFilename || '',
+        portraitData: portraitData || '',
         email: email || '',
         phone: phone || '',
         address: address || '',
@@ -146,6 +178,10 @@ export function BackMain({
             value={position}
             onValueChange={setPosition}
             label={t('Position')}
+          />
+          <MyFileInput
+            setFilename={setPortraitFilename}
+            setFileData={setPortraitData}
           />
         </AccordionItem>
         <AccordionItem title={t('Contact')} key={'contact'}>
