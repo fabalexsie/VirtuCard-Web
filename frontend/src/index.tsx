@@ -13,9 +13,10 @@ import {
   loader as templateLoader,
   action as templateAction,
 } from './routes/RCreateTemplate';
-import { loader as homeLoader } from './routes/RHome';
+import PageWrapperNotifyLoaded from './routes/PageWrapper';
 import RCreateTemplate from './routes/RCreateTemplate';
 import RHome from './routes/RHome';
+import { loader as homeLoader } from './routes/RHome';
 import RError from './routes/RError';
 
 import { ToastContainer, Slide } from 'react-toastify';
@@ -26,6 +27,7 @@ import './i18n';
 const router = createBrowserRouter([
   {
     errorElement: <RError />,
+    element: <PageWrapperNotifyLoaded />,
     children: [
       {
         path: '/',
