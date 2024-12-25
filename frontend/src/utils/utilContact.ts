@@ -1,8 +1,8 @@
 import { Person } from './data';
-import { downloadAsFile } from './util';
+import { downloadAsFile, resizeImage } from './util';
 import vCard from 'vcf';
 
-export function downloadVcf(personData: Person) {
+export async function downloadVcf(personData: Person) {
   let card = new vCard();
 
   // Name
@@ -42,7 +42,8 @@ export function downloadVcf(personData: Person) {
   if (personData.notes) card.add('note', personData.notes);
 
   // Photo
-  if (personData.portraitData) card.add('photo', personData.portraitData);
+  if (personData.portraitData)
+    card.add('photo', await resizeImage(personData.portraitData));
 
   downloadAsFile(
     `${personData.lastname}_${personData.firstname}.vcf`,
