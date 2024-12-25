@@ -173,7 +173,6 @@ export function BackMain({
     <div className="bg-white w-full h-full text-center p-4 overflow-y-auto touch-pan-y">
       <h1>{t('Edit Profile Information')}</h1>
 
-      {/*<MyInput label={t('Title')} />*/}
       <MyInput
         value={firstname}
         onValueChange={setFirstname}
@@ -186,7 +185,6 @@ export function BackMain({
         label={t('Last name')}
         isRequired
       />
-      {/*<MyInput label={t('Company name')} />*/}
 
       <Accordion
         variant="light"
@@ -242,18 +240,6 @@ export function BackMain({
             label={t('GitHub')}
             startContent={'github.com/'}
           />
-          {/*<MyInput label={t('Xing')} />*/}
-          {/*<MyInput label={t('X (Twitter)')} />*/}
-          {/*<MyInput label={t('Mastodon')} />*/}
-          {/*<MyInput label={t('Facebook')} />*/}
-
-          {/*<MyInput label={t('Instagram')} />*/}
-          {/*<MyInput label={t('WhatsApp')} />*/}
-          {/*<MyInput label={t('Telegram')} />*/}
-          {/*<MyInput label={t('Signal')} />*/}
-          {/*<MyInput label={t('Twitch')} />*/}
-          {/*<MyInput label={t('Discord')} />*/}
-          {/*<MyInput label={t('Medium')} />*/}
         </AccordionItem>
         <AccordionItem title={t('Other')} key={'other'}>
           <MyInput
