@@ -199,16 +199,16 @@ export function BackMain({
         }
       >
         <AccordionItem title={t('About me')} key={'about-me'}>
-          <MyInput
-            value={position}
-            onValueChange={setPosition}
-            label={t('Position')}
-          />
           <MyFileInput
             filename={portraitFilename}
             filedata={portraitData}
             setFilename={setPortraitFilename}
             setFileData={setPortraitData}
+          />
+          <MyInput
+            value={position}
+            onValueChange={setPosition}
+            label={t('Position')}
           />
         </AccordionItem>
         <AccordionItem title={t('Contact')} key={'contact'}>
