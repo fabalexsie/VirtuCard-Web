@@ -71,7 +71,9 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin === self.location.origin && url.pathname.startsWith('/api/'),
+    url.origin === self.location.origin &&
+    (url.pathname.startsWith('/api/') ||
+      url.pathname.startsWith('/ejs.min.js')),
   new StaleWhileRevalidate({
     cacheName: 'api',
     plugins: [
