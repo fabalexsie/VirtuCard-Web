@@ -7,7 +7,7 @@ services:
       - PORT=8090
       - NEW_TEMPLATES_ALLOWED=false
       - NEW_PERSONS_ALLOWED=true
-    ports:
-      - 8090:8090
+    # ports:
+    #   - 8090:8090
     volumes:
       - ./db:/app/db
